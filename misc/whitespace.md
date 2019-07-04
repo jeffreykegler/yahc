@@ -607,6 +607,29 @@ given in an appendix.
 
 ## Vertical Gaps
 
+When we say that a gap is
+
+>  **a vertical gap with comments at `X`**,
+
+if the gap's inter-comment comment location
+is `X`,
+and the gap's pre-comment comment location
+is not defined.
+When we say that a gap is
+
+> **a vertical gap with comments at `X` and `Y`**,
+
+if the gap's inter-comment comment location
+is `X`,
+and the gap's pre-comment comment location
+is `Y`.
+Here, `X` and `Y` stand for phrases
+which may express comment location directly,
+or via a text block.
+If column location is expressed via a text block,
+the intended comment column location is the start column
+location of the text block.
+
 A vertical gap contains
 
 * A newline-terminated partial line preamble.
@@ -1734,10 +1757,9 @@ FASSIG (`/~`),
 FASBUC (`/$`),
 FASCAB (`/_`),
 FASCEN (`/%`),
+FASFAS (`//`),
 FASHAX (`/#`) and
 FASWUT (`/?`).
-
-<!-- TODO: fordHoop? -->
 
 *From `arvo/app/hall.hoon`, line 17:*
 ```
@@ -1753,25 +1775,24 @@ in lexical order:
 
 * The runechild.
 
-## FASCOM
+## Ford hoof hoons
 
-TODO
+The ford hoof hoons are FASHEP (`/-`) and FASLUS (`/+`).
 
-## FASHEP
-
-TODO
-
-## FASLUS
+*From `../hoons/arvo/app/dojo.hoon`, line 5:*
+```
+/-  sole, lens                                          ::  console structures
+```
 
 *From `hoons/arvo/mar/twit/feed.hoon`, line 6:*
 ```
 /+  twitter, httr-to-json, old-zuse
 ```
 
-A tall FASLUS hoon should consist of,
+A tall Ford hoof hoon should consist of,
 in lexical order:
 
-* The FASLUS rune.
+* The rune.
 
 * A one-stop horizontal gap.
 
@@ -1781,9 +1802,85 @@ in lexical order:
 
 TODO
 
-## FASTIS
+## FASBAR
 
 TODO
+
+## FASCOL
+
+TODO
+
+## FASCOM
+
+### Joined FASCOM
+
+*From `hoons/arvo/ren/css.hoon`, lines 6-8:*
+```
+/,  /web/pack/css  /%   /!css/
+    /              /~  !!
+==
+```
+
+A tall joined FASCOM hoon should consist of,
+in lexical order:
+
+* The rune.
+
+* A one-stop horizontal gap.
+
+* A sequence of FASCOM elements, all of which are
+  aligned with the first one.
+
+* A vertical gap, with comments at the rune column.
+
+* A TISTIS
+
+### Split FASCOM
+
+<!-- The only arvo example of a split FASCOM may be
+anchored and in any case is non-standard.
+-->
+
+TODO
+
+### FASCOM Element sequence
+
+TODO
+
+## FASDOT
+
+A tall FASDOT hoon should consist of,
+in lexical order:
+
+* The rune.
+
+* A one-stop horizontal gap.
+
+* A sequence of ford horns, all of which
+  are aligned with the first one.
+
+* A vertical gap, with comments at the rune column.
+
+* A TISTIS
+
+## Ford horn sequence
+
+TODO
+
+## FASKET
+
+TODO
+
+## FASPAM
+
+TODO
+
+## FASSEM
+
+TODO
+
+## FASTIS
+
 ```
 /=  rfctext  /:  /%/rfc  /txt/
 ```

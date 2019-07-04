@@ -342,21 +342,21 @@ hoons/arvo/sys/zuse.hoon 3854:7 Test::Whitespace tallCentis 1-jogging kingside h
 hoons/arvo/sys/zuse.hoon 4166:7 Test::Whitespace tallCentis 1-jogging kingside head @4166:13; overindented by 2
 
 # From Github issue #15
-hoons/arvo/app/hall.hoon 365:5 Test::Whitespace tallWuthep 1-jogging kingside jogging @366:7; comment overindented by 2
-hoons/arvo/app/hall.hoon 365:5 Test::Whitespace tallWuthep 1-jogging kingside jogging @367:7; comment overindented by 2
-hoons/arvo/app/hall.hoon 414:7 Test::Whitespace tallWuthep 1-jogging kingside jogging @415:9; comment overindented by 2
-hoons/arvo/app/talk.hoon 1056:9 Test::Whitespace tallWuthep 1-jogging kingside jogging @1057:11; comment overindented by 2
-hoons/arvo/lib/down-jet/rend.hoon 129:5 Test::Whitespace tallWuthep 1-jogging kingside TISTIS @153:1; missing comment on line 153
-hoons/arvo/mar/txt.hoon 110:7 Test::Whitespace tallWuthep 1-jogging queenside TISTIS @126:9; comment overindented by 2
-hoons/arvo/sys/hoon.hoon 11270:13 Test::Whitespace tallWuthep 1-jogging kingside jogging @11271:9; comment underindented by 4
-hoons/arvo/sys/vane/clay.hoon 3924:3 Test::Whitespace tallWuthep 1-jogging queenside TISTIS @4059:5; comment overindented by 2
-hoons/arvo/sys/vane/clay.hoon 3924:3 Test::Whitespace tallWuthep 1-jogging queenside TISTIS @4060:5; comment overindented by 2
-hoons/arvo/sys/vane/clay.hoon 3924:3 Test::Whitespace tallWuthep 1-jogging queenside TISTIS @4061:5; comment overindented by 2
-hoons/arvo/sys/vane/gall.hoon 500:5 Test::Whitespace tallWuthep 1-jogging kingside jogging @501:7; comment overindented by 2
-hoons/arvo/sys/vane/xmas.hoon 600:7 Test::Whitespace tallCentis 1-jogging kingside jogging @601:9; comment overindented by 2
-hoons/arvo/sys/zuse.hoon 3438:7 Test::Whitespace tallWuthep 1-jogging queenside jogging @3439:11; comment overindented by 4
-hoons/arvo/sys/zuse.hoon 3492:7 Test::Whitespace tallWuthep 1-jogging queenside jogging @3493:11; comment overindented by 4
-hoons/arvo/sys/zuse.hoon 3511:7 Test::Whitespace tallWuthep 1-jogging queenside jogging @3512:11; comment overindented by 4
+hoons/arvo/app/hall.hoon 366:7 Test::Whitespace wuthep:comment-indent 1-jogging kingside jogging @366:7; comment overindented by 2
+hoons/arvo/app/hall.hoon 367:7 Test::Whitespace wuthep:comment-indent 1-jogging kingside jogging @367:7; comment overindented by 2
+hoons/arvo/app/hall.hoon 415:9 Test::Whitespace wuthep:comment-indent 1-jogging kingside jogging @415:9; comment overindented by 2
+hoons/arvo/app/talk.hoon 1057:11 Test::Whitespace wuthep:comment-indent 1-jogging kingside jogging @1057:11; comment overindented by 2
+hoons/arvo/lib/down-jet/rend.hoon 153:1 Test::Whitespace wuthep:empty-line 1-jogging kingside TISTIS @153:1; missing comment on line 153
+hoons/arvo/mar/txt.hoon 126:9 Test::Whitespace wuthep:comment-indent 1-jogging queenside TISTIS @126:9; comment overindented by 2
+hoons/arvo/sys/hoon.hoon 11271:9 Test::Whitespace wuthep:comment-indent 1-jogging kingside jogging @11271:9; comment underindented by 4
+hoons/arvo/sys/vane/clay.hoon 4059:5 Test::Whitespace wuthep:comment-indent 1-jogging queenside TISTIS @4059:5; comment overindented by 2
+hoons/arvo/sys/vane/clay.hoon 4060:5 Test::Whitespace wuthep:comment-indent 1-jogging queenside TISTIS @4060:5; comment overindented by 2
+hoons/arvo/sys/vane/clay.hoon 4061:5 Test::Whitespace wuthep:comment-indent 1-jogging queenside TISTIS @4061:5; comment overindented by 2
+hoons/arvo/sys/vane/gall.hoon 501:7 Test::Whitespace wuthep:comment-indent 1-jogging kingside jogging @501:7; comment overindented by 2
+hoons/arvo/sys/vane/xmas.hoon 601:9 Test::Whitespace centis:comment-indent 1-jogging kingside jogging @601:9; comment overindented by 2
+hoons/arvo/sys/zuse.hoon 3439:11 Test::Whitespace wuthep:comment-indent 1-jogging queenside jogging @3439:11; comment overindented by 4
+hoons/arvo/sys/zuse.hoon 3493:11 Test::Whitespace wuthep:comment-indent 1-jogging queenside jogging @3493:11; comment overindented by 4
+hoons/arvo/sys/zuse.hoon 3512:11 Test::Whitespace wuthep:comment-indent 1-jogging queenside jogging @3512:11; comment overindented by 4
 
 # From Github issue #14
 # See https://github.com/jeffreykegler/yahc/issues/14#issuecomment-466734347
@@ -494,60 +494,58 @@ hoons/arvo/sys/zuse.hoon 4265:15 Test::Whitespace tallSemsig 1-running runstep #
 hoons/arvo/lib/down-jet/parse.hoon 414:9 Test::Whitespace tallWutpam joined 0-running runstep #2 @414:9; underindented by 2
 
 # "One-line" runnings in hoon.hoon -- Github issue #32
-hoons/arvo/sys/hoon.hoon 5329:11 Test::Whitespace tallSemsig 1-running TISTIS @5329:45; missing newline @5329:43
-hoons/arvo/sys/hoon.hoon 5329:11 Test::Whitespace tallSemsig 1-running TISTIS @5329:45; overindented by 34
-hoons/arvo/sys/hoon.hoon 5347:13 Test::Whitespace tallSemsig 1-running TISTIS @5347:47; missing newline @5347:45
-hoons/arvo/sys/hoon.hoon 5347:13 Test::Whitespace tallSemsig 1-running TISTIS @5347:47; overindented by 34
+hoons/arvo/sys/hoon.hoon 5329:43 Test::Whitespace semsig:missing-newline 1-running TISTIS @5329:45; missing newline @5329:43
+hoons/arvo/sys/hoon.hoon 5347:45 Test::Whitespace semsig:missing-newline 1-running TISTIS @5347:47; missing newline @5347:45
 
 # Github issue #34
-hoons/arvo/app/fora.hoon 65:7 Test::Whitespace colsig:comment-indent runstep #2 @64:5; comment overindented by 2
-hoons/arvo/app/fora.hoon 98:7 Test::Whitespace colsig:comment-indent runstep #2 @97:5; comment overindented by 2
-hoons/arvo/app/gh.hoon 146:11 Test::Whitespace coltar:comment-indent runstep #3 @145:9; comment overindented by 2
-hoons/arvo/app/gh.hoon 153:11 Test::Whitespace coltar:comment-indent runstep #4 @152:9; comment overindented by 2
-hoons/arvo/app/gh.hoon 159:11 Test::Whitespace coltar:comment-indent runstep #5 @158:9; comment overindented by 2
-hoons/arvo/app/hall.hoon 1189:11 Test::Whitespace colsig:comment-indent runstep #2 @1188:9; comment overindented by 2
-hoons/arvo/app/hall.hoon 1193:11 Test::Whitespace colsig:comment-indent runstep #3 @1192:9; comment overindented by 2
-hoons/arvo/app/hall.hoon 1197:11 Test::Whitespace colsig:comment-indent runstep #4 @1196:9; comment overindented by 2
-hoons/arvo/app/hall.hoon 1200:11 Test::Whitespace colsig:comment-indent runstep #5 @1199:9; comment overindented by 2
-hoons/arvo/app/hall.hoon 1203:11 Test::Whitespace colsig:comment-indent runstep #6 @1202:9; comment overindented by 2
-hoons/arvo/app/hall.hoon 1207:11 Test::Whitespace colsig:comment-indent runstep #7 @1206:9; comment overindented by 2
-hoons/arvo/app/hall.hoon 2254:7 Test::Whitespace colsig:comment-indent runstep #2 @2253:5; comment overindented by 2
-hoons/arvo/app/talk.hoon 284:7 Test::Whitespace coltar:comment-indent runstep #5 @283:5; comment overindented by 2
-hoons/arvo/lib/gh-parse.hoon 201:7 Test::Whitespace coltar:comment-indent runstep #6 @200:5; comment overindented by 2
-hoons/arvo/lib/gh-parse.hoon 207:7 Test::Whitespace coltar:comment-indent runstep #7 @206:5; comment overindented by 2
-hoons/arvo/lib/hood/helm.hoon 256:7 Test::Whitespace colsig:comment-indent runstep #2 @255:5; comment overindented by 2
-hoons/arvo/lib/hood/helm.hoon 261:7 Test::Whitespace colsig:comment-indent runstep #3 @260:5; comment overindented by 2
-hoons/arvo/lib/hood/helm.hoon 277:7 Test::Whitespace colsig:comment-indent runstep #2 @276:5; comment overindented by 2
-hoons/arvo/sys/vane/clay.hoon 755:11 Test::Whitespace wutpam:comment-indent runstep #3 @752:9; comment overindented by 2
-hoons/arvo/tests/zuse/crypto/keccak.hoon 102:7 Test::Whitespace colsig:comment-indent runstep #2 @101:5; comment overindented by 2
-hoons/arvo/tests/zuse/crypto/keccak.hoon 106:7 Test::Whitespace colsig:comment-indent runstep #3 @105:5; comment overindented by 2
-hoons/arvo/tests/zuse/crypto/keccak.hoon 110:7 Test::Whitespace colsig:comment-indent runstep #4 @109:5; comment overindented by 2
-hoons/arvo/tests/zuse/crypto/keccak.hoon 114:7 Test::Whitespace colsig:comment-indent runstep #5 @113:5; comment overindented by 2
-hoons/arvo/tests/zuse/crypto/keccak.hoon 118:7 Test::Whitespace colsig:comment-indent runstep #6 @117:5; comment overindented by 2
-hoons/arvo/tests/zuse/crypto/keccak.hoon 122:7 Test::Whitespace colsig:comment-indent runstep #7 @121:5; comment overindented by 2
-hoons/arvo/tests/zuse/crypto/keccak.hoon 133:7 Test::Whitespace colsig:comment-indent runstep #2 @132:5; comment overindented by 2
-hoons/arvo/tests/zuse/crypto/keccak.hoon 137:7 Test::Whitespace colsig:comment-indent runstep #3 @136:5; comment overindented by 2
-hoons/arvo/tests/zuse/crypto/keccak.hoon 141:7 Test::Whitespace colsig:comment-indent runstep #4 @140:5; comment overindented by 2
-hoons/arvo/tests/zuse/crypto/keccak.hoon 145:7 Test::Whitespace colsig:comment-indent runstep #5 @144:5; comment overindented by 2
-hoons/arvo/tests/zuse/crypto/keccak.hoon 149:7 Test::Whitespace colsig:comment-indent runstep #6 @148:5; comment overindented by 2
-hoons/arvo/tests/zuse/crypto/keccak.hoon 153:7 Test::Whitespace colsig:comment-indent runstep #7 @152:5; comment overindented by 2
-hoons/arvo/tests/zuse/crypto/keccak.hoon 165:7 Test::Whitespace colsig:comment-indent runstep #2 @164:5; comment overindented by 2
-hoons/arvo/tests/zuse/crypto/keccak.hoon 170:7 Test::Whitespace colsig:comment-indent runstep #3 @169:5; comment overindented by 2
-hoons/arvo/tests/zuse/crypto/keccak.hoon 175:7 Test::Whitespace colsig:comment-indent runstep #4 @174:5; comment overindented by 2
-hoons/arvo/tests/zuse/crypto/keccak.hoon 180:7 Test::Whitespace colsig:comment-indent runstep #5 @179:5; comment overindented by 2
-hoons/arvo/tests/zuse/crypto/keccak.hoon 185:7 Test::Whitespace colsig:comment-indent runstep #6 @184:5; comment overindented by 2
-hoons/arvo/tests/zuse/crypto/keccak.hoon 190:7 Test::Whitespace colsig:comment-indent runstep #7 @189:5; comment overindented by 2
-hoons/arvo/tests/zuse/crypto/keccak.hoon 204:7 Test::Whitespace colsig:comment-indent runstep #2 @203:5; comment overindented by 2
-hoons/arvo/tests/zuse/crypto/keccak.hoon 210:7 Test::Whitespace colsig:comment-indent runstep #3 @209:5; comment overindented by 2
-hoons/arvo/tests/zuse/crypto/keccak.hoon 216:7 Test::Whitespace colsig:comment-indent runstep #4 @215:5; comment overindented by 2
-hoons/arvo/tests/zuse/crypto/keccak.hoon 222:7 Test::Whitespace colsig:comment-indent runstep #5 @221:5; comment overindented by 2
-hoons/arvo/tests/zuse/crypto/keccak.hoon 228:7 Test::Whitespace colsig:comment-indent runstep #6 @227:5; comment overindented by 2
-hoons/arvo/tests/zuse/crypto/keccak.hoon 234:7 Test::Whitespace colsig:comment-indent runstep #7 @233:5; comment overindented by 2
+hoons/arvo/app/fora.hoon 64:5 Test::Whitespace colsig:comment-indent runstep #2 @64:5; comment overindented by 2
+hoons/arvo/app/fora.hoon 97:5 Test::Whitespace colsig:comment-indent runstep #2 @97:5; comment overindented by 2
+hoons/arvo/app/gh.hoon 145:9 Test::Whitespace coltar:comment-indent runstep #3 @145:9; comment overindented by 2
+hoons/arvo/app/gh.hoon 152:9 Test::Whitespace coltar:comment-indent runstep #4 @152:9; comment overindented by 2
+hoons/arvo/app/gh.hoon 158:9 Test::Whitespace coltar:comment-indent runstep #5 @158:9; comment overindented by 2
+hoons/arvo/app/hall.hoon 1188:9 Test::Whitespace colsig:comment-indent runstep #2 @1188:9; comment overindented by 2
+hoons/arvo/app/hall.hoon 1192:9 Test::Whitespace colsig:comment-indent runstep #3 @1192:9; comment overindented by 2
+hoons/arvo/app/hall.hoon 1196:9 Test::Whitespace colsig:comment-indent runstep #4 @1196:9; comment overindented by 2
+hoons/arvo/app/hall.hoon 1199:9 Test::Whitespace colsig:comment-indent runstep #5 @1199:9; comment overindented by 2
+hoons/arvo/app/hall.hoon 1202:9 Test::Whitespace colsig:comment-indent runstep #6 @1202:9; comment overindented by 2
+hoons/arvo/app/hall.hoon 1206:9 Test::Whitespace colsig:comment-indent runstep #7 @1206:9; comment overindented by 2
+hoons/arvo/app/hall.hoon 2253:5 Test::Whitespace colsig:comment-indent runstep #2 @2253:5; comment overindented by 2
+hoons/arvo/app/talk.hoon 283:5 Test::Whitespace coltar:comment-indent runstep #5 @283:5; comment overindented by 2
+hoons/arvo/lib/gh-parse.hoon 200:5 Test::Whitespace coltar:comment-indent runstep #6 @200:5; comment overindented by 2
+hoons/arvo/lib/gh-parse.hoon 206:5 Test::Whitespace coltar:comment-indent runstep #7 @206:5; comment overindented by 2
+hoons/arvo/lib/hood/helm.hoon 255:5 Test::Whitespace colsig:comment-indent runstep #2 @255:5; comment overindented by 2
+hoons/arvo/lib/hood/helm.hoon 260:5 Test::Whitespace colsig:comment-indent runstep #3 @260:5; comment overindented by 2
+hoons/arvo/lib/hood/helm.hoon 276:5 Test::Whitespace colsig:comment-indent runstep #2 @276:5; comment overindented by 2
+hoons/arvo/sys/vane/clay.hoon 752:9 Test::Whitespace wutpam:comment-indent runstep #3 @752:9; comment overindented by 2
+hoons/arvo/tests/zuse/crypto/keccak.hoon 101:5 Test::Whitespace colsig:comment-indent runstep #2 @101:5; comment overindented by 2
+hoons/arvo/tests/zuse/crypto/keccak.hoon 105:5 Test::Whitespace colsig:comment-indent runstep #3 @105:5; comment overindented by 2
+hoons/arvo/tests/zuse/crypto/keccak.hoon 109:5 Test::Whitespace colsig:comment-indent runstep #4 @109:5; comment overindented by 2
+hoons/arvo/tests/zuse/crypto/keccak.hoon 113:5 Test::Whitespace colsig:comment-indent runstep #5 @113:5; comment overindented by 2
+hoons/arvo/tests/zuse/crypto/keccak.hoon 117:5 Test::Whitespace colsig:comment-indent runstep #6 @117:5; comment overindented by 2
+hoons/arvo/tests/zuse/crypto/keccak.hoon 121:5 Test::Whitespace colsig:comment-indent runstep #7 @121:5; comment overindented by 2
+hoons/arvo/tests/zuse/crypto/keccak.hoon 132:5 Test::Whitespace colsig:comment-indent runstep #2 @132:5; comment overindented by 2
+hoons/arvo/tests/zuse/crypto/keccak.hoon 136:5 Test::Whitespace colsig:comment-indent runstep #3 @136:5; comment overindented by 2
+hoons/arvo/tests/zuse/crypto/keccak.hoon 140:5 Test::Whitespace colsig:comment-indent runstep #4 @140:5; comment overindented by 2
+hoons/arvo/tests/zuse/crypto/keccak.hoon 144:5 Test::Whitespace colsig:comment-indent runstep #5 @144:5; comment overindented by 2
+hoons/arvo/tests/zuse/crypto/keccak.hoon 148:5 Test::Whitespace colsig:comment-indent runstep #6 @148:5; comment overindented by 2
+hoons/arvo/tests/zuse/crypto/keccak.hoon 152:5 Test::Whitespace colsig:comment-indent runstep #7 @152:5; comment overindented by 2
+hoons/arvo/tests/zuse/crypto/keccak.hoon 164:5 Test::Whitespace colsig:comment-indent runstep #2 @164:5; comment overindented by 2
+hoons/arvo/tests/zuse/crypto/keccak.hoon 169:5 Test::Whitespace colsig:comment-indent runstep #3 @169:5; comment overindented by 2
+hoons/arvo/tests/zuse/crypto/keccak.hoon 174:5 Test::Whitespace colsig:comment-indent runstep #4 @174:5; comment overindented by 2
+hoons/arvo/tests/zuse/crypto/keccak.hoon 179:5 Test::Whitespace colsig:comment-indent runstep #5 @179:5; comment overindented by 2
+hoons/arvo/tests/zuse/crypto/keccak.hoon 184:5 Test::Whitespace colsig:comment-indent runstep #6 @184:5; comment overindented by 2
+hoons/arvo/tests/zuse/crypto/keccak.hoon 189:5 Test::Whitespace colsig:comment-indent runstep #7 @189:5; comment overindented by 2
+hoons/arvo/tests/zuse/crypto/keccak.hoon 203:5 Test::Whitespace colsig:comment-indent runstep #2 @203:5; comment overindented by 2
+hoons/arvo/tests/zuse/crypto/keccak.hoon 209:5 Test::Whitespace colsig:comment-indent runstep #3 @209:5; comment overindented by 2
+hoons/arvo/tests/zuse/crypto/keccak.hoon 215:5 Test::Whitespace colsig:comment-indent runstep #4 @215:5; comment overindented by 2
+hoons/arvo/tests/zuse/crypto/keccak.hoon 221:5 Test::Whitespace colsig:comment-indent runstep #5 @221:5; comment overindented by 2
+hoons/arvo/tests/zuse/crypto/keccak.hoon 227:5 Test::Whitespace colsig:comment-indent runstep #6 @227:5; comment overindented by 2
+hoons/arvo/tests/zuse/crypto/keccak.hoon 233:5 Test::Whitespace colsig:comment-indent runstep #7 @233:5; comment overindented by 2
 
 # Github issue #36
-hoons/arvo/app/talk.hoon 864:11 Test::Whitespace semsig:comment-indent runstep #11 @861:9; comment underindented by 2
-hoons/arvo/app/talk.hoon 864:11 Test::Whitespace semsig:comment-indent runstep #11 @862:9; comment underindented by 2
-hoons/arvo/app/talk.hoon 864:11 Test::Whitespace semsig:comment-indent runstep #11 @863:9; comment underindented by 2
+hoons/arvo/app/talk.hoon 861:9 Test::Whitespace semsig:comment-indent runstep #11 @861:9; comment underindented by 2
+hoons/arvo/app/talk.hoon 862:9 Test::Whitespace semsig:comment-indent runstep #11 @862:9; comment underindented by 2
+hoons/arvo/app/talk.hoon 863:9 Test::Whitespace semsig:comment-indent runstep #11 @863:9; comment underindented by 2
 
 # Github issue #40
 hoons/arvo/lib/down-jet/parse.hoon 53:1 Test::Whitespace barcen:hephep-alone HEPHEP @96:1 should only share line with other HEPHEP's
@@ -1005,65 +1003,145 @@ hoons/arvo/gen/hall/save.hoon 5:1 Test::Whitespace faswut:hgap body @5:7 is over
 hoons/arvo/gen/hall/unlog.hoon 5:1 Test::Whitespace faswut:hgap body @5:7 is overindented by 2
 
 # Two-stop FASLUS hoons (should be one stop)
-hoons/arvo/app/twit.hoon 6:1 Test::Whitespace optFordFaslus Faslus body @6:7 is overindented by 2
-hoons/arvo/app/ask.hoon 5:1 Test::Whitespace optFordFaslus Faslus body @5:7 is overindented by 2
-hoons/arvo/app/talk.hoon 17:1 Test::Whitespace optFordFaslus Faslus body @17:7 is overindented by 2
-hoons/arvo/app/hall.hoon 12:1 Test::Whitespace optFordFaslus Faslus body @12:7 is overindented by 2
-hoons/arvo/sec/com/digitalocean.hoon 5:1 Test::Whitespace optFordFaslus Faslus body @5:7 is overindented by 2
-hoons/arvo/sec/com/asana.hoon 5:1 Test::Whitespace optFordFaslus Faslus body @5:7 is overindented by 2
-hoons/arvo/sec/com/dropboxapi.hoon 5:1 Test::Whitespace optFordFaslus Faslus body @5:7 is overindented by 2
-hoons/arvo/sec/com/googleapis.hoon 5:1 Test::Whitespace optFordFaslus Faslus body @5:7 is overindented by 2
-hoons/arvo/sec/com/instagram.hoon 5:1 Test::Whitespace optFordFaslus Faslus body @5:7 is overindented by 2
-hoons/arvo/sec/com/twitter.hoon 5:1 Test::Whitespace optFordFaslus Faslus body @5:7 is overindented by 2
-hoons/arvo/sec/com/slack.hoon 5:1 Test::Whitespace optFordFaslus Faslus body @5:7 is overindented by 2
-hoons/arvo/sec/com/github.hoon 5:1 Test::Whitespace optFordFaslus Faslus body @5:7 is overindented by 2
-hoons/arvo/sec/com/facebook.hoon 5:1 Test::Whitespace optFordFaslus Faslus body @5:7 is overindented by 2
-hoons/arvo/lib/hall-json.hoon 5:1 Test::Whitespace optFordFaslus Faslus body @5:7 is overindented by 2
-hoons/arvo/lib/oauth1.hoon 5:1 Test::Whitespace optFordFaslus Faslus body @5:7 is overindented by 2
-hoons/arvo/lib/twitter.hoon 7:1 Test::Whitespace optFordFaslus Faslus body @7:7 is overindented by 2
-hoons/arvo/lib/oauth2.hoon 5:1 Test::Whitespace optFordFaslus Faslus body @5:7 is overindented by 2
-hoons/arvo/lib/hood/drum.hoon 6:1 Test::Whitespace optFordFaslus Faslus body @6:7 is overindented by 2
-hoons/arvo/lib/hood/womb.hoon 5:1 Test::Whitespace optFordFaslus Faslus body @5:7 is overindented by 2
-hoons/arvo/mar/gmail/req.hoon 2:1 Test::Whitespace optFordFaslus Faslus body @2:7 is overindented by 2
-hoons/arvo/mar/tree/index.hoon 5:1 Test::Whitespace optFordFaslus Faslus body @5:7 is overindented by 2
-hoons/arvo/mar/tree/hymn.hoon 5:1 Test::Whitespace optFordFaslus Faslus body @5:7 is overindented by 2
-hoons/arvo/mar/tree/comments.hoon 5:1 Test::Whitespace optFordFaslus Faslus body @5:7 is overindented by 2
-hoons/arvo/mar/lens/command.hoon 2:1 Test::Whitespace optFordFaslus Faslus body @2:7 is overindented by 2
-hoons/arvo/mar/write/wipe.hoon 5:1 Test::Whitespace optFordFaslus Faslus body @5:7 is overindented by 2
-hoons/arvo/mar/write/plan-info.hoon 5:1 Test::Whitespace optFordFaslus Faslus body @5:7 is overindented by 2
-hoons/arvo/mar/write/paste.hoon 5:1 Test::Whitespace optFordFaslus Faslus body @5:7 is overindented by 2
-hoons/arvo/mar/womb/part.hoon 5:1 Test::Whitespace optFordFaslus Faslus body @5:7 is overindented by 2
-hoons/arvo/mar/womb/invite.hoon 5:1 Test::Whitespace optFordFaslus Faslus body @5:7 is overindented by 2
-hoons/arvo/mar/womb/claim.hoon 5:1 Test::Whitespace optFordFaslus Faslus body @5:7 is overindented by 2
-hoons/arvo/mar/womb/bonus.hoon 5:1 Test::Whitespace optFordFaslus Faslus body @5:7 is overindented by 2
-hoons/arvo/mar/womb/ticket-info.hoon 5:1 Test::Whitespace optFordFaslus Faslus body @5:7 is overindented by 2
-hoons/arvo/mar/womb/balance.hoon 5:1 Test::Whitespace optFordFaslus Faslus body @5:7 is overindented by 2
-hoons/arvo/mar/womb/replay-log.hoon 5:1 Test::Whitespace optFordFaslus Faslus body @5:7 is overindented by 2
-hoons/arvo/mar/womb/stat-all.hoon 5:1 Test::Whitespace optFordFaslus Faslus body @5:7 is overindented by 2
-hoons/arvo/mar/womb/recycle.hoon 5:1 Test::Whitespace optFordFaslus Faslus body @5:7 is overindented by 2
-hoons/arvo/mar/dill/belt.hoon 6:1 Test::Whitespace optFordFaslus Faslus body @6:7 is overindented by 2
-hoons/arvo/mar/dill/blit.hoon 6:1 Test::Whitespace optFordFaslus Faslus body @6:7 is overindented by 2
-hoons/arvo/mar/down.hoon 6:1 Test::Whitespace optFordFaslus Faslus body @6:7 is overindented by 2
-hoons/arvo/mar/umd.hoon 5:1 Test::Whitespace optFordFaslus Faslus body @5:7 is overindented by 2
-hoons/arvo/mar/sole/action.hoon 6:1 Test::Whitespace optFordFaslus Faslus body @6:7 is overindented by 2
-hoons/arvo/mar/sole/effect.hoon 6:1 Test::Whitespace optFordFaslus Faslus body @6:7 is overindented by 2
-hoons/arvo/mar/fora/post.hoon 5:1 Test::Whitespace optFordFaslus Faslus body @5:7 is overindented by 2
-hoons/arvo/mar/fora/comment.hoon 5:1 Test::Whitespace optFordFaslus Faslus body @5:7 is overindented by 2
-hoons/arvo/mar/hall/action.hoon 5:1 Test::Whitespace optFordFaslus Faslus body @5:7 is overindented by 2
-hoons/arvo/mar/hall/rumor.hoon 5:1 Test::Whitespace optFordFaslus Faslus body @5:7 is overindented by 2
-hoons/arvo/mar/hall/telegrams.hoon 5:1 Test::Whitespace optFordFaslus Faslus body @5:7 is overindented by 2
-hoons/arvo/mar/hall/command.hoon 6:1 Test::Whitespace optFordFaslus Faslus body @6:7 is overindented by 2
-hoons/arvo/mar/hall/prize.hoon 5:1 Test::Whitespace optFordFaslus Faslus body @5:7 is overindented by 2
-hoons/arvo/web/unmark/all.hoon 5:1 Test::Whitespace optFordFaslus Faslus body @5:7 is overindented by 2
-hoons/arvo/ren/urb.hoon 5:1 Test::Whitespace optFordFaslus Faslus body @5:7 is overindented by 2
-hoons/arvo/ren/tree/json.hoon 6:1 Test::Whitespace optFordFaslus Faslus body @6:7 is overindented by 2
-hoons/arvo/ren/tree/index.hoon 5:1 Test::Whitespace optFordFaslus Faslus body @5:7 is overindented by 2
-hoons/arvo/ren/tree/combine.hoon 6:1 Test::Whitespace optFordFaslus Faslus body @6:7 is overindented by 2
-hoons/arvo/gen/womb/balances.hoon 6:1 Test::Whitespace optFordFaslus Faslus body @6:7 is overindented by 2
-hoons/arvo/gen/womb/balance.hoon 6:1 Test::Whitespace optFordFaslus Faslus body @6:7 is overindented by 2
-hoons/arvo/gen/womb/stats.hoon 5:1 Test::Whitespace optFordFaslus Faslus body @5:7 is overindented by 2
-hoons/arvo/gen/ls.hoon 6:1 Test::Whitespace optFordFaslus Faslus body @6:7 is overindented by 2
-hoons/arvo/gen/cat.hoon 6:1 Test::Whitespace optFordFaslus Faslus body @6:7 is overindented by 2
-hoons/arvo/gen/hood/replay-womb-log.hoon 6:1 Test::Whitespace optFordFaslus Faslus body @6:7 is overindented by 2
-hoons/arvo/gen/hood/transfer.hoon 6:1 Test::Whitespace optFordFaslus Faslus body @6:7 is overindented by 2
-hoons/arvo/gen/hood/load.hoon 6:1 Test::Whitespace optFordFaslus Faslus body @6:7 is overindented by 2
+hoons/arvo/app/twit.hoon 6:7 Test::Whitespace faslus:hgap Faslus body @6:7 is overindented by 2
+hoons/arvo/app/ask.hoon 5:7 Test::Whitespace faslus:hgap Faslus body @5:7 is overindented by 2
+hoons/arvo/app/talk.hoon 17:7 Test::Whitespace faslus:hgap Faslus body @17:7 is overindented by 2
+hoons/arvo/app/hall.hoon 12:7 Test::Whitespace faslus:hgap Faslus body @12:7 is overindented by 2
+hoons/arvo/sec/com/digitalocean.hoon 5:7 Test::Whitespace faslus:hgap Faslus body @5:7 is overindented by 2
+hoons/arvo/sec/com/asana.hoon 5:7 Test::Whitespace faslus:hgap Faslus body @5:7 is overindented by 2
+hoons/arvo/sec/com/dropboxapi.hoon 5:7 Test::Whitespace faslus:hgap Faslus body @5:7 is overindented by 2
+hoons/arvo/sec/com/googleapis.hoon 5:7 Test::Whitespace faslus:hgap Faslus body @5:7 is overindented by 2
+hoons/arvo/sec/com/instagram.hoon 5:7 Test::Whitespace faslus:hgap Faslus body @5:7 is overindented by 2
+hoons/arvo/sec/com/twitter.hoon 5:7 Test::Whitespace faslus:hgap Faslus body @5:7 is overindented by 2
+hoons/arvo/sec/com/slack.hoon 5:7 Test::Whitespace faslus:hgap Faslus body @5:7 is overindented by 2
+hoons/arvo/sec/com/github.hoon 5:7 Test::Whitespace faslus:hgap Faslus body @5:7 is overindented by 2
+hoons/arvo/sec/com/facebook.hoon 5:7 Test::Whitespace faslus:hgap Faslus body @5:7 is overindented by 2
+hoons/arvo/lib/hall-json.hoon 5:7 Test::Whitespace faslus:hgap Faslus body @5:7 is overindented by 2
+hoons/arvo/lib/oauth1.hoon 5:7 Test::Whitespace faslus:hgap Faslus body @5:7 is overindented by 2
+hoons/arvo/lib/twitter.hoon 7:7 Test::Whitespace faslus:hgap Faslus body @7:7 is overindented by 2
+hoons/arvo/lib/oauth2.hoon 5:7 Test::Whitespace faslus:hgap Faslus body @5:7 is overindented by 2
+hoons/arvo/lib/hood/drum.hoon 6:7 Test::Whitespace faslus:hgap Faslus body @6:7 is overindented by 2
+hoons/arvo/lib/hood/womb.hoon 5:7 Test::Whitespace faslus:hgap Faslus body @5:7 is overindented by 2
+hoons/arvo/mar/gmail/req.hoon 2:7 Test::Whitespace faslus:hgap Faslus body @2:7 is overindented by 2
+hoons/arvo/mar/tree/index.hoon 5:7 Test::Whitespace faslus:hgap Faslus body @5:7 is overindented by 2
+hoons/arvo/mar/tree/hymn.hoon 5:7 Test::Whitespace faslus:hgap Faslus body @5:7 is overindented by 2
+hoons/arvo/mar/tree/comments.hoon 5:7 Test::Whitespace faslus:hgap Faslus body @5:7 is overindented by 2
+hoons/arvo/mar/lens/command.hoon 2:7 Test::Whitespace faslus:hgap Faslus body @2:7 is overindented by 2
+hoons/arvo/mar/write/wipe.hoon 5:7 Test::Whitespace faslus:hgap Faslus body @5:7 is overindented by 2
+hoons/arvo/mar/write/plan-info.hoon 5:7 Test::Whitespace faslus:hgap Faslus body @5:7 is overindented by 2
+hoons/arvo/mar/write/paste.hoon 5:7 Test::Whitespace faslus:hgap Faslus body @5:7 is overindented by 2
+hoons/arvo/mar/womb/part.hoon 5:7 Test::Whitespace faslus:hgap Faslus body @5:7 is overindented by 2
+hoons/arvo/mar/womb/invite.hoon 5:7 Test::Whitespace faslus:hgap Faslus body @5:7 is overindented by 2
+hoons/arvo/mar/womb/claim.hoon 5:7 Test::Whitespace faslus:hgap Faslus body @5:7 is overindented by 2
+hoons/arvo/mar/womb/bonus.hoon 5:7 Test::Whitespace faslus:hgap Faslus body @5:7 is overindented by 2
+hoons/arvo/mar/womb/ticket-info.hoon 5:7 Test::Whitespace faslus:hgap Faslus body @5:7 is overindented by 2
+hoons/arvo/mar/womb/balance.hoon 5:7 Test::Whitespace faslus:hgap Faslus body @5:7 is overindented by 2
+hoons/arvo/mar/womb/replay-log.hoon 5:7 Test::Whitespace faslus:hgap Faslus body @5:7 is overindented by 2
+hoons/arvo/mar/womb/stat-all.hoon 5:7 Test::Whitespace faslus:hgap Faslus body @5:7 is overindented by 2
+hoons/arvo/mar/womb/recycle.hoon 5:7 Test::Whitespace faslus:hgap Faslus body @5:7 is overindented by 2
+hoons/arvo/mar/dill/belt.hoon 6:7 Test::Whitespace faslus:hgap Faslus body @6:7 is overindented by 2
+hoons/arvo/mar/dill/blit.hoon 6:7 Test::Whitespace faslus:hgap Faslus body @6:7 is overindented by 2
+hoons/arvo/mar/down.hoon 6:7 Test::Whitespace faslus:hgap Faslus body @6:7 is overindented by 2
+hoons/arvo/mar/umd.hoon 5:7 Test::Whitespace faslus:hgap Faslus body @5:7 is overindented by 2
+hoons/arvo/mar/sole/action.hoon 6:7 Test::Whitespace faslus:hgap Faslus body @6:7 is overindented by 2
+hoons/arvo/mar/sole/effect.hoon 6:7 Test::Whitespace faslus:hgap Faslus body @6:7 is overindented by 2
+hoons/arvo/mar/fora/post.hoon 5:7 Test::Whitespace faslus:hgap Faslus body @5:7 is overindented by 2
+hoons/arvo/mar/fora/comment.hoon 5:7 Test::Whitespace faslus:hgap Faslus body @5:7 is overindented by 2
+hoons/arvo/mar/hall/action.hoon 5:7 Test::Whitespace faslus:hgap Faslus body @5:7 is overindented by 2
+hoons/arvo/mar/hall/rumor.hoon 5:7 Test::Whitespace faslus:hgap Faslus body @5:7 is overindented by 2
+hoons/arvo/mar/hall/telegrams.hoon 5:7 Test::Whitespace faslus:hgap Faslus body @5:7 is overindented by 2
+hoons/arvo/mar/hall/command.hoon 6:7 Test::Whitespace faslus:hgap Faslus body @6:7 is overindented by 2
+hoons/arvo/mar/hall/prize.hoon 5:7 Test::Whitespace faslus:hgap Faslus body @5:7 is overindented by 2
+hoons/arvo/web/unmark/all.hoon 5:7 Test::Whitespace faslus:hgap Faslus body @5:7 is overindented by 2
+hoons/arvo/ren/urb.hoon 5:7 Test::Whitespace faslus:hgap Faslus body @5:7 is overindented by 2
+hoons/arvo/ren/tree/json.hoon 6:7 Test::Whitespace faslus:hgap Faslus body @6:7 is overindented by 2
+hoons/arvo/ren/tree/index.hoon 5:7 Test::Whitespace faslus:hgap Faslus body @5:7 is overindented by 2
+hoons/arvo/ren/tree/combine.hoon 6:7 Test::Whitespace faslus:hgap Faslus body @6:7 is overindented by 2
+hoons/arvo/gen/womb/balances.hoon 6:7 Test::Whitespace faslus:hgap Faslus body @6:7 is overindented by 2
+hoons/arvo/gen/womb/balance.hoon 6:7 Test::Whitespace faslus:hgap Faslus body @6:7 is overindented by 2
+hoons/arvo/gen/womb/stats.hoon 5:7 Test::Whitespace faslus:hgap Faslus body @5:7 is overindented by 2
+hoons/arvo/gen/ls.hoon 6:7 Test::Whitespace faslus:hgap Faslus body @6:7 is overindented by 2
+hoons/arvo/gen/cat.hoon 6:7 Test::Whitespace faslus:hgap Faslus body @6:7 is overindented by 2
+hoons/arvo/gen/hood/replay-womb-log.hoon 6:7 Test::Whitespace faslus:hgap Faslus body @6:7 is overindented by 2
+hoons/arvo/gen/hood/transfer.hoon 6:7 Test::Whitespace faslus:hgap Faslus body @6:7 is overindented by 2
+hoons/arvo/gen/hood/load.hoon 6:7 Test::Whitespace faslus:hgap Faslus body @6:7 is overindented by 2
+
+# Ford FASTIS two-stop gaps
+hoons/arvo/app/talk.hoon 18:7 Test::Whitespace fordFastis Fastis symbol @18:7; overindented by 2
+hoons/arvo/app/hall.hoon 13:7 Test::Whitespace fordFastis Fastis symbol @13:7; overindented by 2
+hoons/arvo/app/hall.hoon 14:7 Test::Whitespace fordFastis Fastis symbol @14:7; overindented by 2
+hoons/arvo/mar/urb.hoon 5:25 Test::Whitespace fordFastis Fastis horn @5:25; overindented by 2
+hoons/arvo/web/unmark/all.hoon 7:7 Test::Whitespace fordFastis Fastis symbol @7:7; overindented by 2
+hoons/arvo/ren/tree/body.hoon 5:7 Test::Whitespace fordFastis Fastis symbol @5:7; overindented by 2
+hoons/arvo/ren/tree/body.hoon 5:14 Test::Whitespace fordFastis Fastis horn @5:14; overindented by 2
+hoons/arvo/ren/tree/body.hoon 6:7 Test::Whitespace fordFastis Fastis symbol @6:7; overindented by 2
+hoons/arvo/ren/tree/json.hoon 7:7 Test::Whitespace fordFastis Fastis symbol @7:7; overindented by 2
+hoons/arvo/ren/tree/json.hoon 7:14 Test::Whitespace fordFastis Fastis horn @7:14; overindented by 2
+hoons/arvo/ren/tree/json.hoon 8:7 Test::Whitespace fordFastis Fastis symbol @8:7; overindented by 2
+hoons/arvo/ren/tree/json.hoon 8:14 Test::Whitespace fordFastis Fastis horn @8:14; overindented by 2
+hoons/arvo/ren/tree/json.hoon 9:7 Test::Whitespace fordFastis Fastis symbol @9:7; overindented by 2
+hoons/arvo/ren/tree/json.hoon 9:14 Test::Whitespace fordFastis Fastis horn @9:14; overindented by 2
+hoons/arvo/ren/tree/head.hoon 6:7 Test::Whitespace fordFastis Fastis symbol @6:7; overindented by 2
+hoons/arvo/ren/tree/head.hoon 6:14 Test::Whitespace fordFastis Fastis horn @6:14; overindented by 2
+hoons/arvo/ren/tree/head.hoon 7:7 Test::Whitespace fordFastis Fastis symbol @7:7; overindented by 2
+hoons/arvo/ren/tree/head.hoon 13:7 Test::Whitespace fordFastis Fastis symbol @13:7; overindented by 2
+hoons/arvo/ren/tree/head.hoon 19:7 Test::Whitespace fordFastis Fastis symbol @19:7; overindented by 2
+hoons/arvo/ren/tree/head.hoon 19:17 Test::Whitespace fordFastis Fastis horn @19:17; overindented by 2
+hoons/arvo/ren/tree/combine.hoon 7:7 Test::Whitespace fordFastis Fastis symbol @7:7; overindented by 2
+hoons/arvo/ren/tree/combine.hoon 7:15 Test::Whitespace fordFastis Fastis horn @7:15; overindented by 2
+hoons/arvo/ren/tree/combine.hoon 8:7 Test::Whitespace fordFastis Fastis symbol @8:7; overindented by 2
+hoons/arvo/ren/tree/combine.hoon 8:15 Test::Whitespace fordFastis Fastis horn @8:15; overindented by 2
+hoons/arvo/ren/tree/combine.hoon 9:7 Test::Whitespace fordFastis Fastis symbol @9:7; overindented by 2
+hoons/arvo/ren/tree/combine.hoon 9:15 Test::Whitespace fordFastis Fastis horn @9:15; overindented by 2
+hoons/arvo/ren/tree/combine.hoon 10:7 Test::Whitespace fordFastis Fastis symbol @10:7; overindented by 2
+hoons/arvo/ren/tree/combine.hoon 10:15 Test::Whitespace fordFastis Fastis horn @10:15; overindented by 2
+hoons/arvo/ren/tree/combine.hoon 11:7 Test::Whitespace fordFastis Fastis symbol @11:7; overindented by 2
+hoons/arvo/ren/tree/combine.hoon 11:15 Test::Whitespace fordFastis Fastis horn @11:15; overindented by 2
+hoons/arvo/ren/tree/combine.hoon 12:7 Test::Whitespace fordFastis Fastis symbol @12:7; overindented by 2
+hoons/arvo/ren/tree/combine.hoon 12:15 Test::Whitespace fordFastis Fastis horn @12:15; overindented by 2
+hoons/arvo/ren/tree/combine.hoon 13:7 Test::Whitespace fordFastis Fastis symbol @13:7; overindented by 2
+hoons/arvo/ren/tree/combine.hoon 13:15 Test::Whitespace fordFastis Fastis horn @13:15; overindented by 2
+hoons/arvo/ren/tree/combine.hoon 14:7 Test::Whitespace fordFastis Fastis symbol @14:7; overindented by 2
+hoons/arvo/ren/tree/combine.hoon 14:15 Test::Whitespace fordFastis Fastis horn @14:15; overindented by 2
+hoons/arvo/ren/urb/tree.hoon 6:13 Test::Whitespace fordFastis Fastis horn @6:13; overindented by 2
+hoons/arvo/ren/urb/tree.hoon 7:13 Test::Whitespace fordFastis Fastis horn @7:13; overindented by 2
+
+# Ford FASHEP two-stop gaps
+hoons/arvo/sur/plan/diff.hoon 1:7 Test::Whitespace fashep:hgap Fashep body @1:7 is overindented by 2
+hoons/arvo/app/twit.hoon 5:7 Test::Whitespace fashep:hgap Fashep body @5:7 is overindented by 2
+hoons/arvo/app/talk.hoon 16:7 Test::Whitespace fashep:hgap Fashep body @16:7 is overindented by 2
+hoons/arvo/app/hall.hoon 11:7 Test::Whitespace fashep:hgap Fashep body @11:7 is overindented by 2
+hoons/arvo/lib/hall-json.hoon 4:7 Test::Whitespace fashep:hgap Fashep body @4:7 is overindented by 2
+hoons/arvo/lib/sole.hoon 5:7 Test::Whitespace fashep:hgap Fashep body @5:7 is overindented by 2
+hoons/arvo/lib/twitter.hoon 6:7 Test::Whitespace fashep:hgap Fashep body @6:7 is overindented by 2
+hoons/arvo/lib/down-jet.hoon 5:7 Test::Whitespace fashep:hgap Fashep body @5:7 is overindented by 2
+hoons/arvo/lib/hood/helm.hoon 5:7 Test::Whitespace fashep:hgap Fashep body @5:7 is overindented by 2
+hoons/arvo/lib/hood/drum.hoon 5:7 Test::Whitespace fashep:hgap Fashep body @5:7 is overindented by 2
+hoons/arvo/lib/hood/write.hoon 6:7 Test::Whitespace fashep:hgap Fashep body @6:7 is overindented by 2
+hoons/arvo/lib/hall.hoon 4:7 Test::Whitespace fashep:hgap Fashep body @4:7 is overindented by 2
+hoons/arvo/mar/plan-diff.hoon 5:7 Test::Whitespace fashep:hgap Fashep body @5:7 is overindented by 2
+hoons/arvo/mar/tree/include.hoon 5:7 Test::Whitespace fashep:hgap Fashep body @5:7 is overindented by 2
+hoons/arvo/mar/plan.hoon 5:7 Test::Whitespace fashep:hgap Fashep body @5:7 is overindented by 2
+hoons/arvo/mar/dill/belt.hoon 5:7 Test::Whitespace fashep:hgap Fashep body @5:7 is overindented by 2
+hoons/arvo/mar/dill/blit.hoon 5:7 Test::Whitespace fashep:hgap Fashep body @5:7 is overindented by 2
+hoons/arvo/mar/down.hoon 5:7 Test::Whitespace fashep:hgap Fashep body @5:7 is overindented by 2
+hoons/arvo/mar/recoverable-error.hoon 5:7 Test::Whitespace fashep:hgap Fashep body @5:7 is overindented by 2
+hoons/arvo/mar/sole/action.hoon 5:7 Test::Whitespace fashep:hgap Fashep body @5:7 is overindented by 2
+hoons/arvo/mar/sole/effect.hoon 5:7 Test::Whitespace fashep:hgap Fashep body @5:7 is overindented by 2
+hoons/arvo/mar/hall/action.hoon 4:7 Test::Whitespace fashep:hgap Fashep body @4:7 is overindented by 2
+hoons/arvo/mar/hall/rumor.hoon 4:7 Test::Whitespace fashep:hgap Fashep body @4:7 is overindented by 2
+hoons/arvo/mar/hall/telegrams.hoon 4:7 Test::Whitespace fashep:hgap Fashep body @4:7 is overindented by 2
+hoons/arvo/mar/hall/command.hoon 5:7 Test::Whitespace fashep:hgap Fashep body @5:7 is overindented by 2
+hoons/arvo/mar/hall/prize.hoon 4:7 Test::Whitespace fashep:hgap Fashep body @4:7 is overindented by 2
+hoons/arvo/ren/tree/json.hoon 5:7 Test::Whitespace fashep:hgap Fashep body @5:7 is overindented by 2
+hoons/arvo/ren/tree/include.hoon 5:7 Test::Whitespace fashep:hgap Fashep body @5:7 is overindented by 2
+hoons/arvo/ren/tree/combine.hoon 5:7 Test::Whitespace fashep:hgap Fashep body @5:7 is overindented by 2
+hoons/arvo/gen/gmail/send.hoon 6:7 Test::Whitespace fashep:hgap Fashep body @6:7 is overindented by 2
+hoons/arvo/gen/twit/as.hoon 5:7 Test::Whitespace fashep:hgap Fashep body @5:7 is overindented by 2
+hoons/arvo/gen/twit/feed.hoon 6:7 Test::Whitespace fashep:hgap Fashep body @6:7 is overindented by 2
+hoons/arvo/gen/pope.hoon 7:7 Test::Whitespace fashep:hgap Fashep body @7:7 is overindented by 2
+
+# Ford FASDOT two-stop gaps
+hoons/arvo/web/pack/js/tree-urb.hoon 6:9 Test::Whitespace fasdot:body-indent joined fasdot @6:9; overindented by 2
+hoons/arvo/web/pack/css/codemirror-fonts-bootstrap-tree.hoon 6:9 Test::Whitespace fasdot:body-indent joined fasdot @6:9; overindented by 2
+hoons/arvo/ren/tree/index.hoon 12:11 Test::Whitespace fasdot:body-indent joined fasdot @12:11; overindented by 2
