@@ -977,9 +977,9 @@ EOS
 
     my %tallBackdentRule = map { +( $_, 1 ) } qw(
       bonz5d
-      fordFasbar
       fordFascol
       fordFasket
+      fordFaspam
       fordFassem
       tallBarcol
       tallBarsig

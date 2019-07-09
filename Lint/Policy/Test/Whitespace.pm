@@ -792,9 +792,20 @@ sub checkTistis {
     my $tag            = $options->{tag};
     my $instance       = $policy->{lint};
     my $parent         = $tistis->{PARENT};
-    my $subpolicyTag   = $options->{subpolicyTag}
-      // $policy->nodeSubpolicy($parent),
-      my @mistakes = ();
+    my @mistakes = ();
+
+    # TODO: Delete after development
+    die if defined $options->{subpolicyTag};
+
+    my @subpolicy = ();
+    SET_SUBPOLICY: {
+        my $subpolicy = $options->{subpolicy};
+        if (defined $subpolicy) {
+            push @subpolicy, @{$subpolicy};
+            last SET_SUBPOLICY;
+        }
+        push @subpolicy, $policy->nodeSubpolicy($parent);
+    }
 
     my ( $parentLine, $parentColumn ) = $instance->nodeLC($parent);
     my ( $tistisLine, $tistisColumn ) = $instance->nodeLC($tistis);
@@ -809,7 +820,7 @@ sub checkTistis {
         push @mistakes,
           {
             desc         => $msg,
-            subpolicy    => $subpolicyTag . ':tistis-alone',
+            subpolicy      => [ @subpolicy, 'tistis-alone' ],
             parentLine   => $parentLine,
             parentColumn => $parentColumn,
             line         => $tistisLine,
@@ -835,7 +846,7 @@ sub checkTistis {
         push @mistakes,
           {
             desc           => $msg,
-            subpolicy      => $subpolicyTag . ':tistis-indent',
+            subpolicy      => [ @subpolicy, 'tistis-indent' ],
             parentLine     => $parentLine,
             parentColumn   => $parentColumn,
             line           => $tistisLine,
@@ -2061,7 +2072,7 @@ sub checkFascom {
     if ($isJoined) {
         $chessSide = 'queenside';
     } else {
-        $chessSide = $policy->chessSideOfSequence($elements, $anchorColumn);
+        $chessSide = $policy->chessSideOfPairSequence($elements, $anchorColumn);
     }
 
     my $nodeIX = $node->{IX};
@@ -2643,6 +2654,7 @@ sub checkFordHoofRune {
     my ( $parentLine, $parentColumn ) = $instance->nodeLC($node);
     my ( $bodyLine,   $bodyColumn )   = $instance->nodeLC($body);
     my ( $leaderGapLine,   $leaderGapColumn )   = $instance->nodeLC($leaderGap);
+    my ( $anchorLine, $anchorColumn ) = ( $parentLine, $parentColumn );
 
     my @mistakes = ();
     my $tag      = $runeName;
@@ -2690,13 +2702,13 @@ sub checkFordHoofRune {
 
     }
 
-    $expectedColumn = $parentColumn;
+    $expectedColumn = $anchorColumn;
     push @mistakes,
       @{
         $policy->checkOneLineGap(
             $trailerGap,
             {
-                mainColumn => $expectedColumn,
+                mainColumn => $anchorColumn,
                 tag        => $tag,
                 subpolicy => [ $runeName ],
                 details    => [ [$tag] ],
@@ -2714,7 +2726,7 @@ sub checkFordHoop {
     # TODO Split is implemented, but not split Ford-1 hoon
     # is represented in the corpus AFAICT
 
-    my $tag = 'fordHoop';
+    my $tag = 'fasfas';
 
     # fordFassig ::= (- FAS SIG GAP -) tall5d
     my ( $gap, $body ) = @{ $policy->gapSeq0($node) };
@@ -3078,7 +3090,7 @@ sub checkSplit_0Running {
         $policy->checkTistis(
             $tistis,
             {
-                subpolicyTag   => $policy->nodeSubpolicy($node),
+                subpolicy => [ $policy->nodeSubpolicy($node) ],
                 tag            => $tag,
                 expectedColumn => $anchorColumn,
             }
@@ -3162,7 +3174,7 @@ sub checkJoined_0Running {
         $policy->checkTistis(
             $tistis,
             {
-                subpolicyTag   => $policy->nodeSubpolicy($node),
+                subpolicy => [ $policy->nodeSubpolicy($node) ],
                 tag            => $tag,
                 expectedColumn => $runeColumn,
             }
@@ -3429,7 +3441,7 @@ sub check_0_as_1Running {
         $policy->checkTistis(
             $tistis,
             {
-                subpolicyTag   => $policy->nodeSubpolicy($node),
+                subpolicy => [ $policy->nodeSubpolicy($node) ],
                 tag            => $tag,
                 expectedColumn => $anchorColumn,
             }
@@ -3705,7 +3717,7 @@ sub chessSideOfJoggingHoon {
     die "No jogging found for ", $instance->symbol($node);
 }
 
-sub chessSideOfSequence {
+sub chessSideOfPairSequence {
     my ( $policy, $node, $runeColumn ) = @_;
     my $instance = $policy->{lint};
 
@@ -3715,14 +3727,16 @@ sub chessSideOfSequence {
     my %bodyColumnCount = ();
     my $kingsideCount   = 0;
     my $queensideCount  = 0;
+    my $lastLine = -1;
   CHILD: for my $childIX ( 0 .. $#$children ) {
         my $jog    = $children->[$childIX];
         my $symbol = $jog->{symbol};
         next CHILD if defined $symbol and $symbolReverseDB->{$symbol}->{gap};
         my $head = $jog->{children}->[0];
-        my ( undef, $column1 ) = $instance->line_column( $head->{start} );
-
-        # say " $column1 - $runeColumn >= 4 ";
+        my ( $line1, $column1 ) = $instance->line_column( $head->{start} );
+        next CHILD if $line1 == $lastLine;
+        $lastLine = $line1;
+        # say STDERR " $column1 - $runeColumn >= 4 ";
         if ( $column1 - $runeColumn >= 4 ) {
             $queensideCount++;
             next CHILD;
@@ -3736,7 +3750,7 @@ sub chessSideOfSequence {
 
 sub chessSideOfJogging {
     my ( $policy, $node, $runeColumn ) = @_;
-    return $policy->chessSideOfSequence($node, $runeColumn);
+    return $policy->chessSideOfPairSequence($node, $runeColumn);
 }
 
 # Find the body column, based on alignment within
@@ -3989,16 +4003,21 @@ sub check_2Jogging {
     ) = @{ $policy->gapSeq($node) };
 
     my ( $runeLine,    $runeColumn )    = $instance->nodeLC($rune);
+    my ( $anchorLine,  $anchorColumn )  = ( $runeLine, $runeColumn );
     my ( $headLine,    $headColumn )    = $instance->nodeLC($head);
     my ( $subheadLine, $subheadColumn ) = $instance->nodeLC($subhead);
     my ( $joggingLine, $joggingColumn ) = $instance->nodeLC($jogging);
     my ( $tistisLine,  $tistisColumn )  = $instance->nodeLC($tistis);
 
     my $chessSide     = $policy->chessSideOfJoggingHoon($node);
+    my $isKingside = $chessSide eq 'kingside';
     my $joggingRules  = $instance->{joggingRule};
 
     my @mistakes = ();
     my $tag      = '2-jogging';
+
+    my $isJoined = $headLine == $subheadLine;
+    my @subpolicy = ($runeName, $chessSide, ($isJoined ? 'joined' : 'split'));
 
     if ( $headLine != $runeLine ) {
         my $msg = sprintf
@@ -4009,68 +4028,60 @@ sub check_2Jogging {
         push @mistakes,
           {
             desc         => $msg,
+            subpolicy => [ @subpolicy, 'head-same-line' ],
             parentLine   => $runeLine,
             parentColumn => $runeColumn,
+            reportLine         => $headLine,
+            reportColumn       => $headColumn,
             line         => $headLine,
             column       => $headColumn,
-            expectedLine => $runeLine,
           };
     }
 
-    if ( $headLine == $subheadLine ) {
-        my $expectedColumn = $runeColumn + ( $chessSide eq 'kingside' ? 4 : 6 );
-        if ( $headColumn != $expectedColumn ) {
+        my $expectedHeadColumn = $anchorColumn + ( $isKingside ? 4 : 6 );
+        if ( $headColumn != $expectedHeadColumn ) {
             my $msg = sprintf
               "2-jogging %s head %s; %s",
               $chessSide,
               describeLC( $headLine, $headColumn ),
-              describeMisindent2( $headColumn, $expectedColumn );
+              describeMisindent2( $headColumn, $expectedHeadColumn );
             push @mistakes,
               {
                 desc           => $msg,
+                subpolicy => [ @subpolicy, 'head-hgap' ],
                 parentLine     => $runeLine,
                 parentColumn   => $runeColumn,
+            reportLine         => $headLine,
+            reportColumn       => $headColumn,
                 line           => $headLine,
                 column         => $headColumn,
               };
         }
 
+    if ( $isJoined ) {
         if ( $subheadGap->{length} != 2 ) {
             my ( undef, $subheadGapColumn ) = $instance->nodeLC($subheadGap);
-            $expectedColumn = $subheadGapColumn + 2;
+            my $expectedSubheadColumn = $subheadGapColumn + 2;
             my $msg = sprintf
               "2-jogging %s subhead %s; %s",
               $chessSide,
               describeLC( $subheadLine, $subheadColumn ),
-              describeMisindent2( $subheadColumn, $expectedColumn );
+              describeMisindent2( $subheadColumn, $expectedSubheadColumn );
             push @mistakes,
               {
                 desc           => $msg,
+                subpolicy => [ @subpolicy, 'subhead-hgap' ],
                 parentLine     => $runeLine,
                 parentColumn   => $runeColumn,
-                line           => $headLine,
-                column         => $headColumn,
+                reportLine           => $subheadLine,
+                reportColumn         => $subheadColumn,
+                line           => $subheadLine,
+                column         => $subheadColumn,
               };
         }
     }
 
-    if ( $headLine != $subheadLine ) {
-
-        my $expectedColumn = $runeColumn + 4;
-        if ( $headColumn != $expectedColumn ) {
-            my $msg = sprintf
-              "2-jogging split head %s; %s",
-              describeLC( $headLine, $headColumn ),
-              describeMisindent2( $headColumn, $expectedColumn );
-            push @mistakes,
-              {
-                desc           => $msg,
-                parentLine     => $runeLine,
-                parentColumn   => $runeColumn,
-                line           => $headLine,
-                column         => $headColumn,
-              };
-        }
+    if ( not $isJoined ) {
 
         # If here, we have "split heads", which should follow the "pseudo-jog"
         # format
@@ -4080,29 +4091,32 @@ sub check_2Jogging {
             $policy->checkOneLineGap(
                 $subheadGap,
                 {
-                    mainColumn => $runeColumn,
+                    mainColumn => $anchorColumn,
                     tag        => $tag,
-                subpolicy => [ $runeName ],
+                    subpolicy  => [@subpolicy],
                     details    => [ [$tag] ],
                     topicLines => [$subheadLine],
                 }
             )
           };
 
-        $expectedColumn = $headColumn - 2;
-        if ( $subheadColumn != $expectedColumn ) {
+        my $expectedSubheadColumn = $headColumn - 2;
+        if ( $subheadColumn != $expectedSubheadColumn ) {
             my $msg = sprintf
               "2-jogging %s subhead %s; %s",
               $chessSide,
               describeLC( $subheadLine, $subheadColumn ),
-              describeMisindent2( $subheadColumn, $expectedColumn );
+              describeMisindent2( $subheadColumn, $expectedSubheadColumn );
             push @mistakes,
               {
-                desc           => $msg,
-                parentLine     => $runeLine,
-                parentColumn   => $runeColumn,
-                line           => $subheadLine,
-                column         => $subheadColumn,
+                desc         => $msg,
+                subpolicy    => [ @subpolicy, 'subhead-hgap' ],
+                parentLine   => $runeLine,
+                parentColumn => $runeColumn,
+                reportLine   => $subheadLine,
+                reportColumn => $subheadColumn,
+                line         => $subheadLine,
+                column       => $subheadColumn,
               };
         }
     }
@@ -4112,9 +4126,9 @@ sub check_2Jogging {
         $policy->checkOneLineGap(
             $joggingGap,
             {
-                mainColumn => $runeColumn,
+                mainColumn => $anchorColumn,
                 tag        => $tag,
-                subpolicy => [ $runeName ],
+                subpolicy => [ @subpolicy ],
                 details    => [ [$tag] ],
                 topicLines => [$joggingLine],
             }
@@ -4126,9 +4140,9 @@ sub check_2Jogging {
         $policy->checkOneLineGap(
             $tistisGap,
             {
-                mainColumn => $runeColumn,
+                mainColumn => $anchorColumn,
                 tag        => $tag,
-                subpolicy => [ $runeName ],
+                subpolicy => [ @subpolicy ],
                 topicLines => [$tistisLine],
             }
         )
@@ -4140,7 +4154,8 @@ sub check_2Jogging {
             $tistis,
             {
                 tag            => $tag,
-                expectedColumn => $runeColumn,
+                subpolicy => [ @subpolicy ],
+                expectedColumn => $anchorColumn,
             }
         )
       };
@@ -4478,11 +4493,12 @@ sub checkFastis {
 
   CHECK_SYMBOL: {
         if ( $symbolLine != $parentLine ) {
-            my $msg = sprintf 'Fastis symbol %s; symbol must be on rune line',
+            my $msg = sprintf 'fastis symbol %s; symbol must be on rune line',
               describeLC( $symbolLine, $symbolColumn );
             push @mistakes,
               {
                 desc         => $msg,
+                subpolicy => [ $runeName, 'same-line' ],
                 parentLine   => $parentLine,
                 parentColumn => $parentColumn,
                 line         => $symbolLine,
@@ -4495,12 +4511,13 @@ sub checkFastis {
 
         my $expectedSymbolColumn = $parentColumn + 4;
         if ( $symbolColumn != $expectedSymbolColumn ) {
-            my $msg = sprintf 'Fastis symbol %s; %s',
+            my $msg = sprintf 'fastis symbol %s; %s',
               describeLC( $symbolLine, $symbolColumn ),
               describeMisindent2( $symbolColumn, $expectedSymbolColumn );
             push @mistakes,
               {
                 desc         => $msg,
+                subpolicy => [ $runeName, 'head-hgap' ],
                 parentLine   => $parentLine,
                 parentColumn => $parentColumn,
                 line         => $symbolLine,
@@ -4516,12 +4533,13 @@ sub checkFastis {
             my $symbolLength       = $symbol->{length};
             my $expectedHornColumn = $symbolColumn + $symbolLength + 2;
             if ( $hornColumn != $expectedHornColumn ) {
-                my $msg = sprintf 'Fastis horn %s; %s',
+                my $msg = sprintf 'fastis horn %s; %s',
                   describeLC( $hornLine, $hornColumn ),
                   describeMisindent2( $hornColumn, $expectedHornColumn );
                 push @mistakes,
                   {
                     desc         => $msg,
+                    subpolicy => [ $runeName, 'body-hgap' ],
                     parentLine   => $parentLine,
                     parentColumn => $parentColumn,
                     line         => $hornLine,
@@ -4550,12 +4568,13 @@ sub checkFastis {
           };
 
         if ( $hornColumn != $expectedHornColumn ) {
-            my $msg = sprintf 'Fastis split horn %s; %s',
+            my $msg = sprintf 'fastis split horn %s; %s',
               describeLC( $hornLine, $hornColumn ),
               describeMisindent2( $hornColumn, $expectedHornColumn );
             push @mistakes,
               {
                 desc         => $msg,
+                subpolicy => [ $runeName, 'body-indent' ],
                 parentLine   => $parentLine,
                 parentColumn => $parentColumn,
                 line         => $hornLine,
@@ -5592,7 +5611,6 @@ sub validate_node {
 
     my $mistakes   = [];
     my $start      = $node->{start};
-    my $indentDesc = '???';
 
   GATHER_MISTAKES: {
         if ( $gapiness < 0 ) {    # sequence
@@ -5602,39 +5620,29 @@ sub validate_node {
                 # Jogging problems are detected by the individual jogs --
                 # we do not run diagnostics on the sequence.
                 if ( $lhsName eq 'rick5d' ) {
-                    $indentDesc = 'JOGGING';
                     last TYPE_INDENT;
                 }
                 if ( $lhsName eq 'ruck5d' ) {
-                    $indentDesc = 'JOGGING';
                     last TYPE_INDENT;
                 }
 
                 if ( $lhsName eq 'fordFascomElements' ) {
                     $mistakes = $policy->checkFascomElements($node);
-                    last TYPE_INDENT if @{$mistakes};
-                    $indentDesc = 'FASCOM ELEMENTS';
                     last TYPE_INDENT;
                 }
 
                 if ( $lhsName eq 'fordHoopSeq' ) {
                     $mistakes = $policy->checkSeq( $node, 'hoop' );
-                    last TYPE_INDENT if @{$mistakes};
-                    $indentDesc = 'FORD_HOOP_SEQ';
                     last TYPE_INDENT;
                 }
 
                 if ( $lhsName eq 'hornSeq' ) {
                     $mistakes = $policy->checkSeq( $node, 'horn' );
-                    last TYPE_INDENT if @{$mistakes};
-                    $indentDesc = 'HORN_SEQ';
                     last TYPE_INDENT;
                 }
 
                 if ( $lhsName eq 'optBonzElements' ) {
                     $mistakes = $policy->checkSeq( $node, 'bonz element' );
-                    last TYPE_INDENT if @{$mistakes};
-                    $indentDesc = 'BONZ_ELEMENTS';
                     last TYPE_INDENT;
                 }
 
@@ -5642,19 +5650,15 @@ sub validate_node {
                 my $grandParentName = $instance->brickName($grandParent);
                 if ( $lhsName eq 'tall5dSeq' or $lhsName eq 'till5dSeq' ) {
                     if ( $grandParentName eq 'lute5d' ) {
-                        $indentDesc = 'LUTE';
                         last TYPE_INDENT;
                     }
                     if ( $tall_1RunningRule->{$grandParentName} ) {
-                        $indentDesc = '1-RUNNING';
                         last TYPE_INDENT;
                     }
                     if ( $tall_0RunningRule->{$grandParentName} ) {
-                        $indentDesc = '0-RUNNING';
                         last TYPE_INDENT;
                     }
                     if ( $tall_0_as_1RunningRule->{$grandParentName} ) {
-                        $indentDesc = '0_AS_1-RUNNING';
                         last TYPE_INDENT;
                     }
                 }
@@ -5671,8 +5675,6 @@ sub validate_node {
                       or $greatGrandParentName eq 'tallBarcen'
                       or $greatGrandParentName eq 'tallBarket';
                     $mistakes = $policy->checkWhap5d($node);
-                    last TYPE_INDENT if @{$mistakes};
-                    $indentDesc = 'CELL';
                     last TYPE_INDENT;
                 }
 
@@ -5706,7 +5708,7 @@ sub validate_node {
                 last TYPE_INDENT;
             }
 
-            if ( $lhsName eq 'fordFasdot' ) {
+            if ( $lhsName =~ '^fordFas(bar|dot)' ) {
                 # say STDERR join " ", __FILE__, __LINE__, $lhsName, $instance->literalNode($node);
                 $mistakes = $policy->checkFasdot($node);
                 last TYPE_INDENT;
@@ -5734,92 +5736,66 @@ sub validate_node {
 
             if ( $lhsName eq "fordFascomElement" ) {
                 $mistakes = $policy->checkFascomElement($node);
-                last TYPE_INDENT if @{$mistakes};
-                $indentDesc = 'FASCOM Element';
                 last TYPE_INDENT;
             }
 
             if ( $lhsName eq "lute5d" ) {
                 $mistakes = $policy->checkLute($node);
-                last TYPE_INDENT if @{$mistakes};
-                $indentDesc = 'LUTE';
                 last TYPE_INDENT;
             }
 
             if ( $lhsName =~ m/optFordFas(hep|lus)/ ) {
                 $mistakes = $policy->checkFordHoofRune($lhsName, $node);
-                last TYPE_INDENT if @{$mistakes};
-                $indentDesc = 'Ford hoof rune';
                 last TYPE_INDENT;
             }
 
             if ( $lhsName eq "tallAttribute" ) {
                 $mistakes = $policy->checkSailAttribute($node);
-                last TYPE_INDENT if @{$mistakes};
-                $indentDesc = 'Sail attribute';
                 last TYPE_INDENT;
             }
 
             if ( $lhsName eq "tallBarcab" ) {
                 $mistakes = $policy->checkBarcab($node);
-                last TYPE_INDENT if @{$mistakes};
-                $indentDesc = 'BARCAB';
                 last TYPE_INDENT;
             }
 
             if ( $lhsName eq "tallBarcen" ) {
                 $mistakes = $policy->checkBarcen($node);
-                last TYPE_INDENT if @{$mistakes};
-                $indentDesc = 'BARCEN';
                 last TYPE_INDENT;
             }
 
             if ( $lhsName eq "tallBarket" ) {
                 $mistakes = $policy->checkBarket($node);
-                last TYPE_INDENT if @{$mistakes};
-                $indentDesc = 'BARKET';
                 last TYPE_INDENT;
             }
 
             if ( $lhsName eq "tallKetdot" ) {
                 $mistakes = $policy->checkKetdot($node);
-                last TYPE_INDENT if @{$mistakes};
-                $indentDesc = 'KETDOT';
                 last TYPE_INDENT;
             }
 
             if ( $lhsName eq 'tallTailOfElem' ) {
                 $mistakes = $policy->checkTailOfElem($node);
-                last TYPE_INDENT if @{$mistakes};
-                $indentDesc = $lhsName;
                 last TYPE_INDENT;
             }
 
             if ( $lhsName eq 'tallTailOfTop' ) {
                 $mistakes = $policy->checkTailOfTop($node);
-                last TYPE_INDENT if @{$mistakes};
-                $indentDesc = $lhsName;
                 last TYPE_INDENT;
             }
 
             if ( $lhsName eq "tallKidsOfTop" ) {
                 $mistakes = $policy->checkTopKids($node);
-                last TYPE_INDENT if @{$mistakes};
-                $indentDesc = $lhsName;
                 last TYPE_INDENT;
             }
 
             if ( $lhsName eq "tallTopSail" ) {
                 $mistakes = $policy->checkTopSail($node);
-                last TYPE_INDENT if @{$mistakes};
-                $indentDesc = $lhsName;
                 last TYPE_INDENT;
             }
 
             if ( $lhsName eq "wisp5d" ) {
                 $mistakes = $policy->checkWisp5d($node);
-                last TYPE_INDENT if @{$mistakes};
-                $indentDesc = 'WISP5D';
                 last TYPE_INDENT;
             }
 
@@ -5833,71 +5809,51 @@ sub validate_node {
 
             if ( $tallJogRule->{$lhsName} ) {
                 $mistakes = $policy->checkJog($node);
-                last TYPE_INDENT if @{$mistakes};
-                $indentDesc = 'JOG-STYLE';
                 last TYPE_INDENT;
             }
 
             if ( $tall_0RunningRule->{$lhsName} ) {
                 $mistakes = $policy->check_0Running($node);
-                last TYPE_INDENT if @{$mistakes};
-                $indentDesc = 'RUNNING-0-STYLE';
                 last TYPE_INDENT;
             }
 
             if ( $tall_0_as_1RunningRule->{$lhsName} ) {
                 $mistakes = $policy->check_0_as_1Running($node);
-                last TYPE_INDENT if @{$mistakes};
-                $indentDesc = '1_AS_0-RUNNING-STYLE';
                 last TYPE_INDENT;
             }
 
             if ( $tall_1RunningRule->{$lhsName} ) {
                 $mistakes = $policy->check_1Running($node);
-                last TYPE_INDENT if @{$mistakes};
-                $indentDesc = 'RUNNING-1-STYLE';
                 last TYPE_INDENT;
             }
 
             if ( $tall_1JoggingRule->{$lhsName} ) {
                 $mistakes = $policy->check_1Jogging($node);
-                last TYPE_INDENT if @{$mistakes};
-                $indentDesc = '1-JOGGING-STYLE';
                 last TYPE_INDENT;
             }
 
             if ( $tall_2JoggingRule->{$lhsName} ) {
                 $mistakes = $policy->check_2Jogging($node);
-                last TYPE_INDENT if @{$mistakes};
-                $indentDesc = '2-JOGGING-STYLE';
                 last TYPE_INDENT;
             }
 
             if ( $tall_Jogging1Rule->{$lhsName} ) {
                 $mistakes = $policy->check_Jogging1($node);
-                last TYPE_INDENT if @{$mistakes};
-                $indentDesc = 'JOGGING-1-STYLE';
                 last TYPE_INDENT;
             }
 
             if ( $tallNoteRule->{$lhsName} ) {
                 $mistakes = $policy->checkBackdented($node);
-                last TYPE_INDENT if @{$mistakes};
-                $indentDesc = 'CAST-STYLE';
                 last TYPE_INDENT;
             }
 
             if ( $tallLuslusRule->{$lhsName} ) {
                 $mistakes = $policy->checkLuslus( $node, $lhsName );
-                last TYPE_INDENT if @{$mistakes};
-                $indentDesc = 'LUSLUS-STYLE';
                 last TYPE_INDENT;
             }
 
             if ( $backdentedRule->{$lhsName} ) {
                 $mistakes = $policy->checkBackdented($node);
-                last TYPE_INDENT if @{$mistakes};
-                $indentDesc = 'BACKDENTED';
                 last TYPE_INDENT;
             }
 

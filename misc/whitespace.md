@@ -1413,9 +1413,7 @@ same line, the 2-jogging hoon is called **head-joined**.
 If the head and subhead of a 2-jogging hoon are on
 different lines, the 2-jogging hoon is called **head-split**.
 
-### Kingside 2-jogging hoons
-
-All kingside 2-jogging hoons are head-joined.
+### Kingside head-joined 2-jogging hoons
 
 *From `arvo/sys/hoon.hoon`, lines 6583-6586:*
 ```
@@ -1425,7 +1423,7 @@ All kingside 2-jogging hoons are head-joined.
       ==
 ```
 
-A kingside 2-jogging hoon should consist of,
+A head-joined kingside 2-jogging hoon should consist of,
 in lexical order:
 
 * Its rune.
@@ -1454,7 +1452,48 @@ in lexical order:
 * A TISTIS,
   aligned at the anchor column.
 
-### Head-joined queenside 2-jogging hoons
+### Kingside head-split 2-jogging hoons
+
+*From `hoons/arvo/app/hall.hoon`, lines 1772-1781:*
+```
+    ?+  -.det
+      =<  sa-done
+      %.  det
+      =+  (fall (~(get by stories) nom) *story)
+      ~(sa-change sa nom -)
+    ::
+      $new      (da-create nom +.det)
+      $bear     ~&(%unexpected-unsplit-bear +>)
+      $remove   (da-delete nom)
+    ==
+```
+
+A head-joined kingside 2-jogging hoon should consist of,
+in lexical order:
+
+* Its rune.
+
+* A one-stop horizontal gap.
+
+* Its head.
+
+* A vertical gap, with comments at the anchor column.
+
+* Its subhead, aligned one stop before the head.
+
+* A vertical gap, with comments at the anchor column.
+
+* A kingside jogging.
+  The base column of its jogs should be
+  aligned one stop after the anchor
+  column.
+
+* A vertical gap, with comments at the anchor column.
+
+* A TISTIS,
+  aligned at the anchor column.
+
+### Queenside head-joined 2-jogging hoons
 
 *From `arvo/sys/vane/ames.hoon`, lines 1568-1575:*
 ```
@@ -1497,9 +1536,46 @@ in lexical order:
 * A TISTIS,
   aligned at the anchor column.
 
-### Head-split queenside 2-jogging hoons
+### Queenside head-split 2-jogging hoons
 
-TODO
+*Adapted from `arvo/lib/hood/kiln.hoon`, starting at line 582:*
+```
+    ?+    gem
+        (spam leaf+"strange auto" >gem< ~)
+    ::
+        $init
+      =+  :-  "auto merge failed on strategy %init"
+          "I'm out of ideas"
+      lose:(spam leaf+-< leaf+-> [>p.p.are< q.p.are])
+    ::
+    ==
+```
+
+A head-split queenside 2-jogging hoon should consist of,
+in lexical order:
+
+* Its rune.
+
+* A 2-stop horizontal gap.
+
+* Its head.
+
+* A vertical gap, with comments at the the anchor column.
+
+* Its subhead, aligned one stop before the head.
+
+* A vertical gap, with comments at the the anchor column.
+
+* A queenside jogging.
+  The base column of its jogs should be aligned
+  two stops after the anchor
+  column.
+
+* A vertical gap, with comments
+  at the anchor column.
+
+* A TISTIS,
+  aligned at the anchor column.
 
 ## Jogging-1 hoons
 
@@ -1766,6 +1842,11 @@ FASWUT (`/?`).
           /~  |=({t/telegram:hall bowl:gall} t)
 ```
 
+*From `hoons/arvo/mar/rss-xml.hoon`, line 6:*
+```
+//  /===/mar/xml  :: alias
+```
+
 A tall ford-1 hoon should consist of,
 in lexical order:
 
@@ -1796,19 +1877,94 @@ in lexical order:
 
 * A one-stop horizontal gap.
 
-* A ford hoof sequence.
+* The runechild.
 
-## Ford hoof sequence
+* A vertical gap, with comments at the anchor column.
 
-TODO
+## 0-sequence Ford hoons
 
-## FASBAR
+The 0-sequence Ford hoons are those whose only runechild
+is a sequence of Forn hoons.
+FASBAR (`/|`) and FASDOT (`/.`) are the 0-sequence Ford hoons.
+The "0-" prefix is for orthogonality with "0-running"
+hoons.
 
-TODO
+*From `hoons/arvo/app/hall.hoon`, lines 16-18:*
+```
+      /|  /:  /%/filter  /!noun/
+          /~  |=({t/telegram:hall bowl:gall} t)
+      ==
+```
 
-## FASCOL
+<!-- No FASDOT code in the current arvo corpus is standard,
+do this is a revised example.
+-->
+*Adapted from
+`hoons/arvo/web/pack/css/codemirror-fonts-bootstrap-tree.hoon`,
+lines 6-10:*
+```
+  /.  /:/===/web/lib/css/codemirror:/css/
+      /:/===/web/lib/css/fonts:/css/
+      /:/===/web/lib/css/bootstrap:/css/
+      /:/===/web/tree/main:/css/
+  ==
+```
 
-TODO
+A tall 0-sequence Ford hoon should consist of,
+in lexical order:
+
+* The rune.
+
+* A one-stop horizontal gap.
+
+* A sequence of ford hoons.
+
+* A vertical gap, with comments at the anchor column.
+
+* A TISTIS.
+
+## Ford hoon sequence
+
+A Ford hoon sequence is a sequence of ford hoons.
+All of the ford hoons should be at the same
+alignment.
+
+The hoons in the sequence should be
+separated by vertical gaps.
+The comments in the vertical gaps should be
+aligned with the rune of the hoon which
+directly contains the Ford hoon sequence.
+
+## Ford-2 hones
+
+The Ford-2 hoons are FASCOL (`/:`),
+FASKET (`/^`),
+FASPAM (`/&`),
+and
+FASSEM (`/;`).
+
+<!-- Note FASPAM tall whitespacing in conjectured, based
+on parallel with FASKET. --
+no examples of tall FASPAM exist in the arvo corpus.
+-->
+
+*From `hoons/arvo/app/gmail.hoon`, line 21:*
+```
+/=  rfctext  /:  /%/rfc  /txt/
+```
+
+*From `hoons/arvo/app/hall.hoon`, lines 15-18:*
+```
+      /^  $-({telegram:hall bowl:gall} telegram:hall)
+      /|  /:  /%/filter  /!noun/
+          /~  |=({t/telegram:hall bowl:gall} t)
+      ==
+```
+
+*From `hoons/arvo/ren/tree/index.hoon`, line 7:*
+```
+    /;  (getall:tree /h1/h2/h3/h4/h5/h6)  /tree-elem/
+```
 
 ## FASCOM
 
@@ -1926,39 +2082,19 @@ Comments in the vertical gaps
 should be at the anchor column
 or aligned with the heads of the FASCOM elements.
 
-TODO
+A FASCOM element is considered joined or split,
+depending on the gap between the head and the body.
+If joined, the body of the FASCOM element
+separated from the head by a one-stop gap,
+or an equivalent pseudo-join.
 
-## FASDOT
-
-A tall FASDOT hoon should consist of,
-in lexical order:
-
-* The rune.
-
-* A one-stop horizontal gap.
-
-* A sequence of ford horns, all of which
-  are aligned with the first one.
-
-* A vertical gap, with comments at the rune column.
-
-* A TISTIS
-
-## Ford horn sequence
-
-TODO
-
-## FASKET
-
-TODO
-
-## FASPAM
-
-TODO
-
-## FASSEM
-
-TODO
+If the FASCOM element is split, the 
+body of the FASCOM element should be separated by
+a vertical gap with comments at the body column.
+The body of a kingside FASCOM element should be
+aligned one stop **after** the head of the FASCOM element.
+The body of a queenside FASCOM element should be
+aligned one stop **before** the head of the FASCOM element.
 
 ## FASTIS
 
@@ -1973,11 +2109,7 @@ in lexical order:
 
 * A one-stop horizontal gap.
 
-* A ford horn
-
-## Ford horn
-
-TODO
+* A runechild.
 
 # SELGAP
 

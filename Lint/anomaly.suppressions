@@ -1067,44 +1067,44 @@ hoons/arvo/gen/hood/transfer.hoon 6:7 Test::Whitespace faslus:hgap Faslus body @
 hoons/arvo/gen/hood/load.hoon 6:7 Test::Whitespace faslus:hgap Faslus body @6:7 is overindented by 2
 
 # Ford FASTIS two-stop gaps
-hoons/arvo/app/talk.hoon 18:7 Test::Whitespace fordFastis Fastis symbol @18:7; overindented by 2
-hoons/arvo/app/hall.hoon 13:7 Test::Whitespace fordFastis Fastis symbol @13:7; overindented by 2
-hoons/arvo/app/hall.hoon 14:7 Test::Whitespace fordFastis Fastis symbol @14:7; overindented by 2
-hoons/arvo/mar/urb.hoon 5:25 Test::Whitespace fordFastis Fastis horn @5:25; overindented by 2
-hoons/arvo/web/unmark/all.hoon 7:7 Test::Whitespace fordFastis Fastis symbol @7:7; overindented by 2
-hoons/arvo/ren/tree/body.hoon 5:7 Test::Whitespace fordFastis Fastis symbol @5:7; overindented by 2
-hoons/arvo/ren/tree/body.hoon 5:14 Test::Whitespace fordFastis Fastis horn @5:14; overindented by 2
-hoons/arvo/ren/tree/body.hoon 6:7 Test::Whitespace fordFastis Fastis symbol @6:7; overindented by 2
-hoons/arvo/ren/tree/json.hoon 7:7 Test::Whitespace fordFastis Fastis symbol @7:7; overindented by 2
-hoons/arvo/ren/tree/json.hoon 7:14 Test::Whitespace fordFastis Fastis horn @7:14; overindented by 2
-hoons/arvo/ren/tree/json.hoon 8:7 Test::Whitespace fordFastis Fastis symbol @8:7; overindented by 2
-hoons/arvo/ren/tree/json.hoon 8:14 Test::Whitespace fordFastis Fastis horn @8:14; overindented by 2
-hoons/arvo/ren/tree/json.hoon 9:7 Test::Whitespace fordFastis Fastis symbol @9:7; overindented by 2
-hoons/arvo/ren/tree/json.hoon 9:14 Test::Whitespace fordFastis Fastis horn @9:14; overindented by 2
-hoons/arvo/ren/tree/head.hoon 6:7 Test::Whitespace fordFastis Fastis symbol @6:7; overindented by 2
-hoons/arvo/ren/tree/head.hoon 6:14 Test::Whitespace fordFastis Fastis horn @6:14; overindented by 2
-hoons/arvo/ren/tree/head.hoon 7:7 Test::Whitespace fordFastis Fastis symbol @7:7; overindented by 2
-hoons/arvo/ren/tree/head.hoon 13:7 Test::Whitespace fordFastis Fastis symbol @13:7; overindented by 2
-hoons/arvo/ren/tree/head.hoon 19:7 Test::Whitespace fordFastis Fastis symbol @19:7; overindented by 2
-hoons/arvo/ren/tree/head.hoon 19:17 Test::Whitespace fordFastis Fastis horn @19:17; overindented by 2
-hoons/arvo/ren/tree/combine.hoon 7:7 Test::Whitespace fordFastis Fastis symbol @7:7; overindented by 2
-hoons/arvo/ren/tree/combine.hoon 7:15 Test::Whitespace fordFastis Fastis horn @7:15; overindented by 2
-hoons/arvo/ren/tree/combine.hoon 8:7 Test::Whitespace fordFastis Fastis symbol @8:7; overindented by 2
-hoons/arvo/ren/tree/combine.hoon 8:15 Test::Whitespace fordFastis Fastis horn @8:15; overindented by 2
-hoons/arvo/ren/tree/combine.hoon 9:7 Test::Whitespace fordFastis Fastis symbol @9:7; overindented by 2
-hoons/arvo/ren/tree/combine.hoon 9:15 Test::Whitespace fordFastis Fastis horn @9:15; overindented by 2
-hoons/arvo/ren/tree/combine.hoon 10:7 Test::Whitespace fordFastis Fastis symbol @10:7; overindented by 2
-hoons/arvo/ren/tree/combine.hoon 10:15 Test::Whitespace fordFastis Fastis horn @10:15; overindented by 2
-hoons/arvo/ren/tree/combine.hoon 11:7 Test::Whitespace fordFastis Fastis symbol @11:7; overindented by 2
-hoons/arvo/ren/tree/combine.hoon 11:15 Test::Whitespace fordFastis Fastis horn @11:15; overindented by 2
-hoons/arvo/ren/tree/combine.hoon 12:7 Test::Whitespace fordFastis Fastis symbol @12:7; overindented by 2
-hoons/arvo/ren/tree/combine.hoon 12:15 Test::Whitespace fordFastis Fastis horn @12:15; overindented by 2
-hoons/arvo/ren/tree/combine.hoon 13:7 Test::Whitespace fordFastis Fastis symbol @13:7; overindented by 2
-hoons/arvo/ren/tree/combine.hoon 13:15 Test::Whitespace fordFastis Fastis horn @13:15; overindented by 2
-hoons/arvo/ren/tree/combine.hoon 14:7 Test::Whitespace fordFastis Fastis symbol @14:7; overindented by 2
-hoons/arvo/ren/tree/combine.hoon 14:15 Test::Whitespace fordFastis Fastis horn @14:15; overindented by 2
-hoons/arvo/ren/urb/tree.hoon 6:13 Test::Whitespace fordFastis Fastis horn @6:13; overindented by 2
-hoons/arvo/ren/urb/tree.hoon 7:13 Test::Whitespace fordFastis Fastis horn @7:13; overindented by 2
+hoons/arvo/app/talk.hoon 18:7 Test::Whitespace fastis:head-hgap fastis symbol @18:7; overindented by 2
+hoons/arvo/app/hall.hoon 13:7 Test::Whitespace fastis:head-hgap fastis symbol @13:7; overindented by 2
+hoons/arvo/app/hall.hoon 14:7 Test::Whitespace fastis:head-hgap fastis symbol @14:7; overindented by 2
+hoons/arvo/mar/urb.hoon 5:25 Test::Whitespace fastis:body-hgap fastis horn @5:25; overindented by 2
+hoons/arvo/web/unmark/all.hoon 7:7 Test::Whitespace fastis:head-hgap fastis symbol @7:7; overindented by 2
+hoons/arvo/ren/tree/body.hoon 5:7 Test::Whitespace fastis:head-hgap fastis symbol @5:7; overindented by 2
+hoons/arvo/ren/tree/body.hoon 5:14 Test::Whitespace fastis:body-hgap fastis horn @5:14; overindented by 2
+hoons/arvo/ren/tree/body.hoon 6:7 Test::Whitespace fastis:head-hgap fastis symbol @6:7; overindented by 2
+hoons/arvo/ren/tree/json.hoon 7:7 Test::Whitespace fastis:head-hgap fastis symbol @7:7; overindented by 2
+hoons/arvo/ren/tree/json.hoon 7:14 Test::Whitespace fastis:body-hgap fastis horn @7:14; overindented by 2
+hoons/arvo/ren/tree/json.hoon 8:7 Test::Whitespace fastis:head-hgap fastis symbol @8:7; overindented by 2
+hoons/arvo/ren/tree/json.hoon 8:14 Test::Whitespace fastis:body-hgap fastis horn @8:14; overindented by 2
+hoons/arvo/ren/tree/json.hoon 9:7 Test::Whitespace fastis:head-hgap fastis symbol @9:7; overindented by 2
+hoons/arvo/ren/tree/json.hoon 9:14 Test::Whitespace fastis:body-hgap fastis horn @9:14; overindented by 2
+hoons/arvo/ren/tree/head.hoon 6:7 Test::Whitespace fastis:head-hgap fastis symbol @6:7; overindented by 2
+hoons/arvo/ren/tree/head.hoon 6:14 Test::Whitespace fastis:body-hgap fastis horn @6:14; overindented by 2
+hoons/arvo/ren/tree/head.hoon 7:7 Test::Whitespace fastis:head-hgap fastis symbol @7:7; overindented by 2
+hoons/arvo/ren/tree/head.hoon 13:7 Test::Whitespace fastis:head-hgap fastis symbol @13:7; overindented by 2
+hoons/arvo/ren/tree/head.hoon 19:7 Test::Whitespace fastis:head-hgap fastis symbol @19:7; overindented by 2
+hoons/arvo/ren/tree/head.hoon 19:17 Test::Whitespace fastis:body-hgap fastis horn @19:17; overindented by 2
+hoons/arvo/ren/tree/combine.hoon 7:7 Test::Whitespace fastis:head-hgap fastis symbol @7:7; overindented by 2
+hoons/arvo/ren/tree/combine.hoon 7:15 Test::Whitespace fastis:body-hgap fastis horn @7:15; overindented by 2
+hoons/arvo/ren/tree/combine.hoon 8:7 Test::Whitespace fastis:head-hgap fastis symbol @8:7; overindented by 2
+hoons/arvo/ren/tree/combine.hoon 8:15 Test::Whitespace fastis:body-hgap fastis horn @8:15; overindented by 2
+hoons/arvo/ren/tree/combine.hoon 9:7 Test::Whitespace fastis:head-hgap fastis symbol @9:7; overindented by 2
+hoons/arvo/ren/tree/combine.hoon 9:15 Test::Whitespace fastis:body-hgap fastis horn @9:15; overindented by 2
+hoons/arvo/ren/tree/combine.hoon 10:7 Test::Whitespace fastis:head-hgap fastis symbol @10:7; overindented by 2
+hoons/arvo/ren/tree/combine.hoon 10:15 Test::Whitespace fastis:body-hgap fastis horn @10:15; overindented by 2
+hoons/arvo/ren/tree/combine.hoon 11:7 Test::Whitespace fastis:head-hgap fastis symbol @11:7; overindented by 2
+hoons/arvo/ren/tree/combine.hoon 11:15 Test::Whitespace fastis:body-hgap fastis horn @11:15; overindented by 2
+hoons/arvo/ren/tree/combine.hoon 12:7 Test::Whitespace fastis:head-hgap fastis symbol @12:7; overindented by 2
+hoons/arvo/ren/tree/combine.hoon 12:15 Test::Whitespace fastis:body-hgap fastis horn @12:15; overindented by 2
+hoons/arvo/ren/tree/combine.hoon 13:7 Test::Whitespace fastis:head-hgap fastis symbol @13:7; overindented by 2
+hoons/arvo/ren/tree/combine.hoon 13:15 Test::Whitespace fastis:body-hgap fastis horn @13:15; overindented by 2
+hoons/arvo/ren/tree/combine.hoon 14:7 Test::Whitespace fastis:head-hgap fastis symbol @14:7; overindented by 2
+hoons/arvo/ren/tree/combine.hoon 14:15 Test::Whitespace fastis:body-hgap fastis horn @14:15; overindented by 2
+hoons/arvo/ren/urb/tree.hoon 6:13 Test::Whitespace fastis:body-hgap fastis horn @6:13; overindented by 2
+hoons/arvo/ren/urb/tree.hoon 7:13 Test::Whitespace fastis:body-hgap fastis horn @7:13; overindented by 2
 
 # Ford FASHEP two-stop gaps
 hoons/arvo/sur/plan/diff.hoon 1:7 Test::Whitespace fashep:hgap Fashep body @1:7 is overindented by 2
@@ -1156,3 +1156,75 @@ hoons/arvo/ren/urb.hoon 22:11 Test::Whitespace fascom-elements:comment-indent fa
 hoons/arvo/ren/urb.hoon 24:11 Test::Whitespace fascom-element:body-indent Fascom element body @24:11; underindented by 2
 hoons/arvo/ren/tree/index.hoon 7:5 Test::Whitespace fascom-element:body-indent Fascom element body @7:5; underindented by 4
 hoons/arvo/ren/tree/index.hoon 10:5 Test::Whitespace fascom-element:body-indent Fascom element body @10:5; underindented by 4
+
+# Ford FASBAR aberrations
+hoons/arvo/ren/tree/body.hoon 6:21 Test::Whitespace fasbar:body-indent joined fasbar @6:21; overindented by 1
+hoons/arvo/ren/tree/include.hoon 6:7 Test::Whitespace fasbar:body-indent joined fasbar @6:7; overindented by 2
+
+# Ford FASCOL aberrations
+hoons/arvo/mar/urb.hoon 5:31 Test::Whitespace fascol:hgap joined backdent element #1 of @5:25 is at @5:31; should be @5:29 (tight)
+hoons/arvo/mar/urb.hoon 5:47 Test::Whitespace fascol:hgap joined backdent element #2 of @5:25 is at @5:47; should be @5:45 (tight)
+hoons/arvo/ren/tree/comments.hoon 5:7 Test::Whitespace fascol:hgap joined backdent element #1 of @5:1 is at @5:7; should be @5:5 (tight)
+hoons/arvo/ren/tree/comments.hoon 5:1 Test::Whitespace fordFascol backdented element #2 @6:3; overindented by 2
+
+# Ford FASKET aberrations
+hoons/arvo/web/pack/js/tree-urb.hoon 5:1 Test::Whitespace fordFasket backdented element #2 @6:3; overindented by 2
+hoons/arvo/web/pack/css/codemirror-fonts-bootstrap-tree.hoon 5:1 Test::Whitespace fordFasket backdented element #2 @6:3; overindented by 2
+hoons/arvo/ren/tree/json.hoon 8:20 Test::Whitespace fasket:hgap joined backdent element #1 of @8:14 is at @8:20; should be @8:18 (tight)
+hoons/arvo/ren/tree/json.hoon 8:36 Test::Whitespace fasket:hgap joined backdent element #2 of @8:14 is at @8:36; should be @8:34 (tight)
+hoons/arvo/ren/tree/json.hoon 9:20 Test::Whitespace fasket:hgap joined backdent element #1 of @9:14 is at @9:20; should be @9:18 (tight)
+hoons/arvo/ren/tree/head.hoon 20:40 Test::Whitespace fasket:hgap joined backdent element #2 of @20:17 is at @20:40; should be @20:38 (tight)
+
+# Ford FASSEM aberrations
+hoons/arvo/ren/tree/index.hoon 12:17 Test::Whitespace fassem:hgap joined backdent element #1 of @12:11 is at @12:17; should be @12:15 (tight)
+hoons/arvo/ren/tree/index.hoon 12:40 Test::Whitespace fassem:hgap joined backdent element #2 of @12:11 is at @12:40; should be @12:38 (tight)
+hoons/arvo/ren/tree/index.hoon 13:23 Test::Whitespace fassem:hgap joined backdent element #1 of @13:17 is at @13:23; should be @13:21 (tight)
+hoons/arvo/ren/tree/index.hoon 13:46 Test::Whitespace fassem:hgap joined backdent element #2 of @13:17 is at @13:46; should be @13:44 (tight)
+
+# Ford aberrations
+hoons/arvo/mar/gmail/req.hoon 3:1 Test::Whitespace faslus:empty-line faslus @3:1; empty line in comment
+hoons/arvo/ren/urb.hoon 6:7 Test::Whitespace fascen:hgap joined fascen body @6:7 is overindented by 2
+hoons/arvo/ren/rss-xml.hoon 9:7 Test::Whitespace fasbuc:hgap joined fasbuc body @9:7 is overindented by 2
+hoons/arvo/ren/tree/json.hoon 7:20 Test::Whitespace fasbuc:hgap joined fasbuc body @7:20 is overindented by 2
+hoons/arvo/ren/tree/json.hoon 10:20 Test::Whitespace fascab:hgap joined fascab body @10:20 is overindented by 2
+hoons/arvo/ren/tree/index.hoon 13:17 Test::Whitespace fascab:hgap joined fascab body @13:17 is overindented by 2
+hoons/arvo/ren/tree/elem.hoon 5:7 Test::Whitespace fascen:hgap joined fascen body @5:7 is overindented by 2
+hoons/arvo/ren/urb/tree.hoon 6:19 Test::Whitespace fashax:hgap joined fashax body @6:19 is overindented by 2
+hoons/arvo/ren/urb/tree.hoon 6:24 Test::Whitespace fascen:hgap joined fascen body @6:24 is overindented by 1
+hoons/arvo/ren/urb/tree.hoon 7:19 Test::Whitespace fashax:hgap joined fashax body @7:19 is overindented by 2
+hoons/arvo/ren/urb/tree.hoon 7:24 Test::Whitespace fascen:hgap joined fascen body @7:24 is overindented by 1
+hoons/arvo/ren/css.hoon 6:25 Test::Whitespace fascen:hgap joined fascen body @6:25 is overindented by 1
+hoons/arvo/ren/run.hoon 7:21 Test::Whitespace fascen:hgap joined fascen body @7:21 is overindented by 2
+hoons/arvo/ren/js.hoon 6:24 Test::Whitespace fascen:hgap joined fascen body @6:24 is overindented by 1
+
+# Comment aberrations near Ford FASWUT
+hoons/arvo/mar/tree/json.hoon 5:3 Test::Whitespace faswut:comment-indent faswut @5:3; comment overindented by 2
+hoons/arvo/mar/tree/json.hoon 7:3 Test::Whitespace faswut:comment-indent faswut @7:3; comment overindented by 2
+hoons/arvo/mar/json.hoon 5:3 Test::Whitespace faswut:comment-indent faswut @5:3; comment overindented by 2
+hoons/arvo/mar/json.hoon 7:3 Test::Whitespace faswut:comment-indent faswut @7:3; comment overindented by 2
+hoons/arvo/mar/xml.hoon 5:3 Test::Whitespace faswut:comment-indent faswut @5:3; comment overindented by 2
+hoons/arvo/mar/xml.hoon 7:3 Test::Whitespace faswut:comment-indent faswut @7:3; comment overindented by 2
+hoons/arvo/mar/html.hoon 5:3 Test::Whitespace faswut:comment-indent faswut @5:3; comment overindented by 2
+hoons/arvo/mar/html.hoon 7:3 Test::Whitespace faswut:comment-indent faswut @7:3; comment overindented by 2
+
+# Ford aberrations
+hoons/arvo/app/hall.hoon 15:7 Test::Whitespace fastis:body-indent fastis split horn @15:7; overindented by 4
+hoons/arvo/lib/down-jet.hoon 10:1 Test::Whitespace fasfas:hgap joined fasfas body @10:7 is overindented by 2
+hoons/arvo/lib/down-jet.hoon 11:1 Test::Whitespace fasfas:hgap joined fasfas body @11:7 is overindented by 2
+hoons/arvo/ren/urb/tree.hoon 6:6 Test::Whitespace fastis:head-hgap fastis symbol @6:6; overindented by 1
+hoons/arvo/ren/urb/tree.hoon 7:6 Test::Whitespace fastis:head-hgap fastis symbol @7:6; overindented by 1
+hoons/arvo/ren/test-tree.hoon 2:12 Test::Whitespace fastis:body-hgap fastis horn @2:12; overindented by 1
+
+# 2-Jogging aberrations
+hoons/arvo/sys/zuse.hoon 4602:13 Test::Whitespace wutlus:kingside:joined:subhead-hgap 2-jogging kingside subhead @4602:13; overindented by 1
+hoons/arvo/sys/hoon.hoon 4322:9 Test::Whitespace wutlus:queenside:joined:head-hgap 2-jogging queenside head @4322:9; underindented by 2
+hoons/arvo/sys/hoon.hoon 5461:5 Test::Whitespace wutlus:queenside:split:subhead-hgap 2-jogging queenside subhead @5461:5; underindented by 2
+hoons/arvo/sys/hoon.hoon 7465:15 Test::Whitespace wutlus:kingside:joined:subhead-hgap 2-jogging kingside subhead @7465:15; overindented by 1
+hoons/arvo/sys/hoon.hoon 7489:9 Test::Whitespace wutlus:queenside:joined:head-hgap 2-jogging queenside head @7489:9; underindented by 2
+hoons/arvo/sys/hoon.hoon 7489:20 Test::Whitespace wutlus:queenside:joined:subhead-hgap 2-jogging queenside subhead @7489:20; overindented by 6
+hoons/arvo/sys/hoon.hoon 8314:22 Test::Whitespace wutlus:kingside:joined:subhead-hgap 2-jogging kingside subhead @8314:22; overindented by 4
+hoons/arvo/sys/hoon.hoon 8322:22 Test::Whitespace wutlus:kingside:joined:subhead-hgap 2-jogging kingside subhead @8322:22; overindented by 4
+hoons/arvo/sys/hoon.hoon 8340:13 Test::Whitespace wutlus:kingside:joined:head-hgap 2-jogging kingside head @8340:13; overindented by 2
+hoons/arvo/sys/hoon.hoon 8340:20 Test::Whitespace wutlus:kingside:joined:subhead-hgap 2-jogging kingside subhead @8340:20; overindented by 2
+hoons/arvo/sys/hoon.hoon 9389:20 Test::Whitespace wutlus:kingside:joined:subhead-hgap 2-jogging kingside subhead @9389:20; overindented by 4
+hoons/arvo/sys/hoon.hoon 9863:20 Test::Whitespace wutlus:kingside:joined:subhead-hgap 2-jogging kingside subhead @9863:20; overindented by 4
