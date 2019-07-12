@@ -869,12 +869,12 @@ BUCCOL (`$:`),
 BUCWUT (`$?`),
 COLSIG (`:~`),
 COLTAR (`:*`),
+TISSIG (`=~`),
 WUTBAR (`?|`),
 and
 WUTPAM (`?&`).
 
-* **TISSIG** (`=~`) also has no head,
-  but is a special case.
+<!-- TODO: TISSIG is very problematic. -->
 
 * A **1-running** has a head.
 The current 1-running rules are
@@ -967,52 +967,6 @@ in lexical order:
 <!-- TODO: check all uses of runeColumn to be sure that
      anchor column is not what is intended -->
 
-## TISSIG
-
-*From `arvo/sys/vane/ford.hoon`, lines 8-13:*
-```
-=>  =~
-::  structures
-|%
-++  heel  path                                          ::  functional ending
-++  move  {p/duct q/(wind note gift:able)}              ::  local move
-:: Lines from 13 on are omitted
-```
-
-Note that, in the example above, the anchor column is different
-from the rune column.
-
-A TISSIG hoon should consist of,
-in lexical order:
-
-* Its rune.
-
-* A vertical gap, whose inter-column is the anchor column,
-  and whose pre-column is undefined.
-
-* A running where
-
-    - runstep lines are aligned
-      at the anchor column;
-
-    - the inter-column of the vertical gaps is
-      aligned at the anchor column; and
-
-    - the pre-column of the vertical gaps is
-      undefined.
-
-* A vertical gap, whose inter-column is the anchor column,
-  and whose pre-column is undefined.
-
-* A TISTIS aligned at the anchor column.
-
-<!-- TODO: TISSIG is very problematic.
-By the above definition of correctness, none
-of the TISTIS occurrences in the corpus are correct.
-Also, contrary to the above
- there may to be a joined form of TISSIG.
--->
-
 ## 1-running hoons
 
 1-running hoons can be joined or split.
@@ -1102,10 +1056,14 @@ in lexical order:
 
 ## Runnings
 
-A running starts at the column location of its first run step.
 A running contains one or more **runstep lines**.
-The column location of the runstep lines should be as specified
-for the running hoon that directly contains the running.
+Runstep lines should be aligned at the **runstep base column**,
+with exceptions.
+The runstep base column location
+for each running hoon,
+and the exceptions, if any,
+are stated in the specification of the running hoon
+that directly contains the running.
 
 Within a runstep line, the runsteps
 should be tightly aligned,
@@ -1357,16 +1315,16 @@ in lexical order:
 
 * Its head.
 
-* A vertical gap.
-  Its inter-comment column should be the anchor column.
-  Its pre-comment column should be undefined.
+* A vertical gap, with comments at the
+  the anchor column and the jog base column.
 
 * A kingside jogging.
-  Its base column should be one stop after the anchor column.
+  The jog base column
+  should be
+  one stop after the anchor column.
 
-* A vertical gap.
-  Its inter-comment column should be the anchor column.
-  Its pre-comment column should be undefined.
+* A vertical gap, with comments at the
+  the anchor column and the jog base column.
 
 * A TISTIS,
   starting at the anchor column.
@@ -1391,17 +1349,16 @@ in lexical order:
 
 * Its head.
 
-* A vertical gap.
-  Its inter-comment column should be the anchor column.
-  Its pre-comment column should be undefined.
+* A vertical gap, with comments at the
+  the anchor column and the jog base column.
 
 * A queenside jogging.
-  Its base column should be aligned
+  The jog base column
+  should be
   two stops after the anchor column.
 
-* A vertical gap.
-  Its inter-comment column should be the anchor column.
-  Its pre-comment column should be undefined.
+* A vertical gap, with comments at the
+  the anchor column and the jog base column.
 
 * A TISTIS,
   aligned at the anchor column.
@@ -1436,18 +1393,16 @@ in lexical order:
 
 * Its subhead.
 
-* A vertical gap.
-  Its inter-comment column should be the anchor column.
-  Its pre-comment column should be undefined.
+* A vertical gap, with comments at the
+  the anchor column and the jog base column.
 
 * A kingside jogging.
-  The base column of its jogs should be
-  aligned one stop after the anchor
-  column.
+  The jog base column
+  should be
+  one stop after the anchor column.
 
-* A vertical gap.
-  Its inter-comment column should be the anchor column.
-  Its pre-comment column should be undefined.
+* A vertical gap, with comments at the
+  the anchor column and the jog base column.
 
 * A TISTIS,
   aligned at the anchor column.
@@ -1481,14 +1436,16 @@ in lexical order:
 
 * Its subhead, aligned one stop before the head.
 
-* A vertical gap, with comments at the anchor column.
+* A vertical gap, with comments at the
+  the anchor column and the jog base column.
 
 * A kingside jogging.
-  The base column of its jogs should be
-  aligned one stop after the anchor
-  column.
+  The jog base column
+  should be
+  one stop after the anchor column.
 
-* A vertical gap, with comments at the anchor column.
+* A vertical gap, with comments at the
+  the anchor column and the jog base column.
 
 * A TISTIS,
   aligned at the anchor column.
@@ -1520,18 +1477,16 @@ in lexical order:
 
 * Its subhead.
 
-* A vertical gap.
-  Its inter-comment column should be the anchor column.
-  Its pre-comment column should be undefined.
+* A vertical gap, with comments at the
+  the anchor column and the jog base column.
 
 * A queenside jogging.
-  The base column of its jogs should be aligned
-  two stops after the anchor
-  column.
+  The jog base column
+  should be
+  two stops after the anchor column.
 
-* A vertical gap.
-  Its inter-comment column should be the anchor column.
-  Its pre-comment column should be undefined.
+* A vertical gap, with comments at the
+  the anchor column and the jog base column.
 
 * A TISTIS,
   aligned at the anchor column.
@@ -1564,15 +1519,16 @@ in lexical order:
 
 * Its subhead, aligned one stop before the head.
 
-* A vertical gap, with comments at the the anchor column.
+* A vertical gap, with comments at the
+  the anchor column and the jog base column.
 
 * A queenside jogging.
-  The base column of its jogs should be aligned
-  two stops after the anchor
-  column.
+  The jog base column
+  should be
+  two stops after the anchor column.
 
-* A vertical gap, with comments
-  at the anchor column.
+* A vertical gap, with comments at the
+  the anchor column and the jog base column.
 
 * A TISTIS,
   aligned at the anchor column.
@@ -1602,13 +1558,12 @@ in lexical order:
 * A one-stop horizontal gap.
 
 * A kingside jogging.
-  The base column of its jogs
-  should be aligned
+  The jog base column
+  should be
   two stops after the anchor column.
 
-* A vertical gap.
-  Its inter-comment column should be the anchor column.
-  Its pre-comment column should be undefined.
+* A vertical gap, with comments at the
+  the anchor column and the jog base column.
 
 * A TISTIS,
   aligned one stop after the anchor column.
@@ -2091,7 +2046,7 @@ If joined, the body of the FASCOM element
 separated from the head by a one-stop gap,
 or an equivalent pseudo-join.
 
-If the FASCOM element is split, the 
+If the FASCOM element is split, the
 body of the FASCOM element should be separated by
 a vertical gap with comments at the body column.
 The body of a kingside FASCOM element should be
