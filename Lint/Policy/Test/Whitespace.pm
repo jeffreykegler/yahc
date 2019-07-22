@@ -667,6 +667,7 @@ sub i_isOneLineGap {
     # say STDERR Data::Dumper::Dumper(\@subpolicyElements);
 
     # Criss-cross TISTIS lines are a special case
+    # say STDERR join " ", __FILE__, __LINE__, $startLine, $endLine;
     if (    $startLine == $endLine
         and $instance->literal( $start - 2, 2 ) ne '=='
         and $instance->literal( $start - 2, 2 ) ne '--' )
@@ -682,21 +683,22 @@ sub i_isOneLineGap {
         ];
     }
 
-    if ( $startLine + 1 < $#$lineToPos ) {
-        my $literalFirstLine = $instance->literalLine( $startLine + 1 );
+    my $bodyStartLine = $start == 0 ? $startLine : $startLine + 1;
+    if ( $bodyStartLine < $#$lineToPos ) {
+        my $literalFirstLine = $instance->literalLine( $bodyStartLine );
         if ( $literalFirstLine =~ /'''/ ) {
 
             # say join ' ', __FILE__, __LINE__, qq{"$literalFirstLine"};
-            $startLine++;
+            $bodyStartLine++;
         }
         if ( $literalFirstLine =~ /"""/ ) {
 
             # say join ' ', __FILE__, __LINE__, qq{"$literalFirstLine"};
-            $startLine++;
+            $bodyStartLine++;
         }
     }
     my $results = $policy->checkGapComments(
-        $startLine + 1,
+        $bodyStartLine,
         $endLine - 1,
         $mainColumn, $preColumn
     );
@@ -911,7 +913,9 @@ sub checkSailAttribute {
     my ($expectedBodyColumn, $expectBodyColumnDetails) = @{$policy->sailAttributeBodyAlignment($attributes)};
 
     my @mistakes = ();
-    my $tag      = 'sail atttribute';
+
+    # Not really a rune name
+    my $runeName      = 'sail';
 
     # We deal with the elements list in its own node
 
@@ -921,8 +925,8 @@ sub checkSailAttribute {
             $headGap,
             {
                 mainColumn => $expectedHeadColumn,
-                tag        => $tag,
-                subpolicy => [ 'sail attribute' ],
+                tag        => $runeName,
+                subpolicy => [ $runeName, 'head-vgap' ],
                 topicLines => [$headLine],
             }
         )
@@ -936,10 +940,13 @@ sub checkSailAttribute {
         push @mistakes,
           {
             desc           => $msg,
+            subpolicy => [ $runeName, 'head-indent' ],
             parentLine     => $sailApexLine,
             parentColumn   => $sailApexColumn,
             line           => $headLine,
             column         => $headColumn,
+                    reportLine         => $headLine,
+                    reportColumn       => $headColumn,
             topicLines     => [$headLine],
           };
     }
@@ -952,10 +959,13 @@ sub checkSailAttribute {
             push @mistakes,
               {
                 desc         => $msg,
+                subpolicy => [ $runeName, 'split-sail' ],
                 parentLine   => $sailApexLine,
                 parentColumn => $sailApexColumn,
                 line         => $headLine,
                 column       => $headColumn,
+                    reportLine         => $headLine,
+                    reportColumn       => $headColumn,
                 topicLines   => [$headLine],
               };
             last CHECK_BODY;
@@ -972,10 +982,13 @@ sub checkSailAttribute {
                 push @mistakes,
                   {
                     desc         => $msg,
+                    subpolicy => [ $runeName, 'body-tight-indent' ],
                     parentLine   => $sailApexLine,
                     parentColumn => $sailApexColumn,
                     line         => $bodyLine,
                     column       => $bodyColumn,
+                    reportLine         => $bodyLine,
+                    reportColumn       => $bodyColumn,
                     topicLines   => [$bodyLine],
                   };
                 last CHECK_GAP;
@@ -988,10 +1001,13 @@ sub checkSailAttribute {
                 push @mistakes,
                   {
                     desc         => $msg,
+                    subpolicy => [ $runeName, 'body-align-indent' ],
                     parentLine   => $sailApexLine,
                     parentColumn => $sailApexColumn,
                     line         => $bodyLine,
                     column       => $bodyColumn,
+                    reportLine         => $bodyLine,
+                    reportColumn       => $bodyColumn,
                     topicLines   => [$bodyLine],
                   };
             }
@@ -1019,7 +1035,7 @@ sub checkTailOfElem {
     my $expectedColumn = $tallTopSailColumn - 1;
 
     my @mistakes = ();
-    my $tag      = 'tail of elem';
+    my $runeName      = 'sail';
 
     push @mistakes,
       @{
@@ -1027,8 +1043,8 @@ sub checkTailOfElem {
             $tistisGap,
             {
                 mainColumn => $expectedColumn,
-                tag        => $tag,
-                subpolicy => [ $tag ],
+                tag        => $runeName,
+                subpolicy => [ $runeName, 'elem-tail' ],
                 topicLines => [$tistisLine],
             }
         )
@@ -1039,7 +1055,8 @@ sub checkTailOfElem {
         $policy->checkTistis(
             $tistis,
             {
-                tag            => $tag,
+                tag            => $runeName,
+                subpolicy => [ $runeName, 'elem-tail' ],
                 expectedColumn => $expectedColumn,
             }
         )
@@ -1064,7 +1081,7 @@ sub checkTailOfTop {
     my $expectedColumn = $tallTopSailColumn;
 
     my @mistakes = ();
-    my $tag      = 'tail of top';
+    my $runeName = 'sail';
 
     push @mistakes,
       @{
@@ -1072,8 +1089,8 @@ sub checkTailOfTop {
             $tistisGap,
             {
                 mainColumn => $expectedColumn,
-                tag        => $tag,
-                subpolicy => [ $tag ],
+                subpolicy  => [ $runeName, 'top-tail' ],
+                tag        => $runeName,
                 topicLines => [$tistisLine],
             }
         )
@@ -1084,7 +1101,8 @@ sub checkTailOfTop {
         $policy->checkTistis(
             $tistis,
             {
-                tag            => $tag,
+                tag            => $runeName,
+                subpolicy      => [ $runeName, 'top-tail' ],
                 expectedColumn => $expectedColumn,
             }
         )
@@ -1222,6 +1240,7 @@ sub checkBonzElement {
     return \@mistakes;
 }
 
+# Deals with SEMHEP (;-), SEMLUS (;+), SEMTAR (;*), and SEMCEN (;%).
 sub checkTopSail {
     my ( $policy, $node ) = @_;
     my $instance = $policy->{lint};
@@ -1234,6 +1253,8 @@ sub checkTopSail {
     my ( $bodyLine,   $bodyColumn )   = $instance->nodeLC($body);
 
     my @mistakes = ();
+
+    my $runeName = 'sail';
 
     my $expectedColumn;
 
@@ -1250,10 +1271,13 @@ sub checkTopSail {
             push @mistakes,
               {
                 desc         => $msg,
+                subpolicy => [ $runeName, 'top-sail', 'split' ],
                 parentLine   => $parentLine,
                 parentColumn => $parentColumn,
                 line         => $bodyLine,
                 column       => $bodyColumn,
+                reportLine         => $bodyLine,
+                reportColumn       => $bodyColumn,
               };
             last BODY_ISSUES;
         }
@@ -1262,22 +1286,20 @@ sub checkTopSail {
         my $gapLiteral = $instance->literalNode($bodyGap);
         my $gapLength  = $bodyGap->{length};
         last BODY_ISSUES if $gapLength == 2;
-        my ( undef, $bodyGapColumn ) = $instance->nodeLC($bodyGap);
 
-        # expected length is the length if the spaces at the end
-        # of the gap-equivalent were exactly one stop.
-        my $expectedLength = $gapLength + ( 2 - length $gapLiteral );
-        $expectedColumn = $bodyGapColumn + $expectedLength;
-        my $msg = sprintf 'Top Sail body %s; %s',
+        my $msg = sprintf 'sail runechild %s; %s',
           describeLC( $bodyLine, $bodyColumn ),
-          describeMisindent2( $bodyColumn, $expectedColumn );
+          describeMisindent2( $gapLength, 2 );
         push @mistakes,
           {
             desc           => $msg,
+                subpolicy => [ $runeName, 'top-sail', 'indent' ],
             parentLine     => $parentLine,
             parentColumn   => $parentColumn,
             line           => $bodyLine,
             column         => $bodyColumn,
+                reportLine         => $bodyLine,
+                reportColumn       => $bodyColumn,
           };
     }
 
@@ -1299,6 +1321,8 @@ sub checkTopKids {
 
     my $expectedColumn;
 
+    my $runeName = 'sail';
+
   BODY_ISSUES: {
         if ( $parentLine != $bodyLine ) {
             last BODY_ISSUES if $instance->symbol($body) eq 'CRAM';
@@ -1312,10 +1336,13 @@ sub checkTopKids {
             push @mistakes,
               {
                 desc         => $msg,
+                subpolicy => [ $runeName, 'top-kids', 'kids-split' ],
                 parentLine   => $parentLine,
                 parentColumn => $parentColumn,
                 line         => $bodyLine,
                 column       => $bodyColumn,
+            reportLine           => $bodyLine,
+            reportColumn         => $bodyColumn,
               };
             last BODY_ISSUES;
         }
@@ -1336,10 +1363,13 @@ sub checkTopKids {
         push @mistakes,
           {
             desc           => $msg,
+                subpolicy => [ $runeName, 'top-kids', 'body-indent' ],
             parentLine     => $parentLine,
             parentColumn   => $parentColumn,
             line           => $bodyLine,
             column         => $bodyColumn,
+            reportLine           => $bodyLine,
+            reportColumn         => $bodyColumn,
           };
     }
 
@@ -2411,11 +2441,14 @@ sub checkJogging {
 
 # Check "vanilla" sequence
 sub checkSeq {
-    my ( $policy, $node, $tag ) = @_;
+    my ( $policy, $node, $elementDesc ) = @_;
     my $instance = $policy->{lint};
     my $children = $node->{children};
 
     my ( $parentLine, $parentColumn ) = $instance->nodeLC($node);
+
+    my $brick = $instance->brickNode($node);
+    my $runeName = $brick ? $policy->runeName($brick) : 'fordfile';
 
     my @mistakes = ();
 
@@ -2428,17 +2461,21 @@ sub checkSeq {
         if ( $elementColumn != $expectedColumn ) {
             my $msg = sprintf
               '%s %d %s; %s',
-              $tag,
+              $runeName,
               ( $childIX / 2 ) + 1,
               describeLC( $elementLine, $elementColumn ),
               describeMisindent2( $elementColumn, $expectedColumn );
             push @mistakes,
               {
                 desc           => $msg,
+                subpolicy => [ $runeName, 'sequence-element-indent' ],
                 parentLine     => $parentLine,
                 parentColumn   => $parentColumn,
                 line           => $elementLine,
                 column         => $elementColumn,
+                reportLine           => $elementLine,
+                reportColumn         => $elementColumn,
+                details    => [ [$runeName, $elementDesc] ],
               };
         }
 
@@ -2454,9 +2491,9 @@ sub checkSeq {
                 $elementGap,
                 {
                     mainColumn => $expectedColumn,
-                    tag        => $tag,
-                subpolicy => [ $tag, 'sequence' ],
-                    details    => [ [$tag] ],
+                    tag        => $runeName,
+                    subpolicy => [ $runeName, 'sequence-vgap' ],
+                    details    => [ [$runeName, $elementDesc] ],
                     topicLines => [$elementGapLine],
                 }
             )
@@ -5764,32 +5801,58 @@ sub validate_node {
     my ( $lhs, @rhs ) = $grammar->rule_expand( $node->{ruleID} );
     my $lhsName = $grammar->symbol_name($lhs);
 
-    if ( $lhsName eq 'optGay4i' ) {
-        return;
-    }
-
-    my $childCount = scalar @{$children};
-    if ( $childCount <= 1 ) {
-        return;
-    }
-
-    my $firstChildIndent = $instance->column( $children->[0]->{start} ) - 1;
-
-    my $gapiness = $ruleDB->[$ruleID]->{gapiness} // 0;
-
-    my $reportType = $gapiness < 0 ? 'sequence' : 'indent';
-
-    # TODO: In another policy, warn on tall children of wide nodes
-    if ( $gapiness == 0 ) {    # wide node
-        return;
-    }
-
     # tall node
 
     my $mistakes   = [];
     my $start      = $node->{start};
 
   GATHER_MISTAKES: {
+
+        if ( $lhsName eq 'optGay4i' ) {
+            my $gapLength = $node->{length};
+            return if $gapLength <= 0;
+            my $start = $node->{start};
+
+            # Special case for final newline
+            HANDLE_SINGLE_LINE_TRAILER: {
+                last HANDLE_SINGLE_LINE_TRAILER if $start + $gapLength != $lineToPos->[-1];
+                my $literal = $instance->literalNode($node);
+                # say STDERR join " ", __FILE__, __LINE__, $lhsName, '[' . $literal. ']';
+                return if $literal =~ m/\A [^\n]* \n \z/xms;
+                # say STDERR join " ", __FILE__, __LINE__, $lhsName, '[' . $literal. ']';
+            }
+
+            # say STDERR join " ", __FILE__, __LINE__, $lhsName, '[' . $instance->literalNode($node) . ']';
+            my $runeName = 'fordfile';
+            $mistakes =
+                $policy->checkOneLineGap(
+                    $node,
+                    {
+                        mainColumn => 0,
+                        tag        => $runeName,
+                        subpolicy => [ $runeName, 'vgap' ],
+                    }
+                );
+            # say STDERR join " ", __FILE__, __LINE__, Data::Dumper::Dumper($mistakes);
+            last GATHER_MISTAKES;
+        }
+
+        my $childCount = scalar @{$children};
+        if ( $childCount <= 1 ) {
+            return;
+        }
+
+        my $firstChildIndent = $instance->column( $children->[0]->{start} ) - 1;
+
+        my $gapiness = $ruleDB->[$ruleID]->{gapiness} // 0;
+
+        my $reportType = $gapiness < 0 ? 'sequence' : 'indent';
+
+        # TODO: In another policy, warn on tall children of wide nodes
+        if ( $gapiness == 0 ) {    # wide node
+            return;
+        }
+
         if ( $gapiness < 0 ) {    # sequence
             my $previousLine = $parentLine;
           TYPE_INDENT: {
@@ -5866,6 +5929,8 @@ sub validate_node {
         # if here, gapiness > 0
 
       TYPE_INDENT: {
+
+            # This would be faster as a hash
 
             if ( $lhsName eq "bont5d" ) {
                 $mistakes = $policy->checkBont($node);

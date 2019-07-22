@@ -1408,3 +1408,53 @@ hoons/arvo/lib/hood/kiln.hoon 39:5 Test::Whitespace luslus:arm-body-indent cell 
 hoons/arvo/lib/hood/kiln.hoon 44:5 Test::Whitespace luslus:arm-body-indent cell body @44:5; overindented by 2
 hoons/arvo/lib/hood/kiln.hoon 49:5 Test::Whitespace luslus:arm-body-indent cell body @49:5; overindented by 2
 hoons/arvo/mar/down.hoon 26:7 Test::Whitespace luslus:arm-body-indent cell body @26:7; overindented by 2
+
+# LUSLUS comment indent aberrations
+hoons/arvo/sys/vane/jael.hoon 1032:7 Test::Whitespace luslus:comment-indent luslus @1032:7; comment overindented by 4
+hoons/arvo/sys/vane/jael.hoon 1033:7 Test::Whitespace luslus:comment-indent luslus @1033:7; comment overindented by 4
+hoons/arvo/sys/vane/jael.hoon 1034:7 Test::Whitespace luslus:comment-indent luslus @1034:7; comment overindented by 4
+hoons/arvo/sys/vane/jael.hoon 1035:7 Test::Whitespace luslus:comment-indent luslus @1035:7; comment overindented by 4
+hoons/arvo/sys/vane/jael.hoon 1036:7 Test::Whitespace luslus:comment-indent luslus @1036:7; comment overindented by 4
+hoons/arvo/sys/vane/jael.hoon 1037:7 Test::Whitespace luslus:comment-indent luslus @1037:7; comment overindented by 4
+hoons/arvo/sys/vane/jael.hoon 1038:7 Test::Whitespace luslus:comment-indent luslus @1038:7; comment overindented by 4
+hoons/arvo/sys/vane/jael.hoon 1039:7 Test::Whitespace luslus:comment-indent luslus @1039:7; comment overindented by 4
+hoons/arvo/sys/vane/jael.hoon 1040:7 Test::Whitespace luslus:comment-indent luslus @1040:7; comment overindented by 4
+hoons/arvo/sys/vane/jael.hoon 1041:7 Test::Whitespace luslus:comment-indent luslus @1041:7; comment overindented by 4
+hoons/arvo/sys/vane/jael.hoon 1042:7 Test::Whitespace luslus:comment-indent luslus @1042:7; comment overindented by 4
+hoons/arvo/sys/vane/jael.hoon 1043:7 Test::Whitespace luslus:comment-indent luslus @1043:7; comment overindented by 4
+hoons/arvo/sys/vane/jael.hoon 1044:7 Test::Whitespace luslus:comment-indent luslus @1044:7; comment overindented by 4
+hoons/arvo/sys/vane/jael.hoon 1045:7 Test::Whitespace luslus:comment-indent luslus @1045:7; comment overindented by 4
+hoons/arvo/sys/vane/jael.hoon 1461:7 Test::Whitespace luslus:comment-indent luslus @1461:7; comment overindented by 4
+hoons/arvo/sys/vane/jael.hoon 1462:7 Test::Whitespace luslus:comment-indent luslus @1462:7; comment overindented by 4
+hoons/arvo/sys/vane/jael.hoon 1463:7 Test::Whitespace luslus:comment-indent luslus @1463:7; comment overindented by 4
+hoons/arvo/sys/vane/jael.hoon 1464:7 Test::Whitespace luslus:comment-indent luslus @1464:7; comment overindented by 4
+hoons/arvo/sys/vane/jael.hoon 1465:7 Test::Whitespace luslus:comment-indent luslus @1465:7; comment overindented by 4
+hoons/arvo/sys/vane/jael.hoon 1466:7 Test::Whitespace luslus:comment-indent luslus @1466:7; comment overindented by 4
+
+# top-level (ford file) aberrations
+hoons/arvo/app/gmail.hoon 5:1 Test::Whitespace fordfile:vgap:empty-line fordfile @5:1; empty line in comment
+hoons/arvo/app/gmail.hoon 6:1 Test::Whitespace fordfile:vgap:empty-line fordfile @6:1; empty line in comment
+hoons/arvo/app/gmail/split.hoon 69:1 Test::Whitespace fordfile:vgap:empty-line fordfile @69:1; empty line in comment
+hoons/arvo/app/static.hoon 280:1 Test::Whitespace fordfile:vgap:empty-line fordfile @280:1; empty line in comment
+hoons/arvo/app/static.hoon 281:1 Test::Whitespace fordfile:vgap:empty-line fordfile @281:1; empty line in comment
+hoons/arvo/gen/deco.hoon 48:1 Test::Whitespace fordfile:vgap:empty-line fordfile @48:1; empty line in comment
+hoons/arvo/lib/oauth2.hoon 338:3 Test::Whitespace fordfile:vgap:comment-indent fordfile @338:3; comment overindented by 2
+hoons/arvo/sec/com/asana.hoon 28:1 Test::Whitespace fordfile:vgap:empty-line fordfile @28:1; empty line in comment
+hoons/arvo/sec/com/asana.hoon 32:1 Test::Whitespace fordfile:vgap:empty-line fordfile @32:1; empty line in comment
+hoons/arvo/sec/com/asana.hoon 34:1 Test::Whitespace fordfile:vgap:empty-line fordfile @34:1; empty line in comment
+hoons/arvo/sec/com/asana.hoon 37:1 Test::Whitespace fordfile:vgap:empty-line fordfile @37:1; empty line in comment
+hoons/arvo/sec/com/digitalocean.hoon 28:1 Test::Whitespace fordfile:vgap:empty-line fordfile @28:1; empty line in comment
+hoons/arvo/sec/com/digitalocean.hoon 32:1 Test::Whitespace fordfile:vgap:empty-line fordfile @32:1; empty line in comment
+hoons/arvo/sec/com/digitalocean.hoon 34:1 Test::Whitespace fordfile:vgap:empty-line fordfile @34:1; empty line in comment
+hoons/arvo/sec/com/dropboxapi.hoon 28:1 Test::Whitespace fordfile:vgap:empty-line fordfile @28:1; empty line in comment
+hoons/arvo/sec/com/dropboxapi.hoon 32:1 Test::Whitespace fordfile:vgap:empty-line fordfile @32:1; empty line in comment
+hoons/arvo/sec/com/dropboxapi.hoon 34:1 Test::Whitespace fordfile:vgap:empty-line fordfile @34:1; empty line in comment
+hoons/arvo/sec/com/dropboxapi.hoon 37:1 Test::Whitespace fordfile:vgap:empty-line fordfile @37:1; empty line in comment
+hoons/arvo/sec/com/dropboxapi.hoon 40:1 Test::Whitespace fordfile:vgap:empty-line fordfile @40:1; empty line in comment
+hoons/arvo/sec/com/instagram.hoon 31:1 Test::Whitespace fordfile:vgap:empty-line fordfile @31:1; empty line in comment
+hoons/arvo/sec/com/instagram.hoon 36:1 Test::Whitespace fordfile:vgap:empty-line fordfile @36:1; empty line in comment
+hoons/arvo/sec/com/instagram.hoon 39:1 Test::Whitespace fordfile:vgap:empty-line fordfile @39:1; empty line in comment
+hoons/arvo/sur/gmail-label.hoon 3:1 Test::Whitespace fordfile:vgap:empty-line fordfile @3:1; empty line in comment
+hoons/arvo/sur/gmail-label.hoon 4:1 Test::Whitespace fordfile:vgap:empty-line fordfile @4:1; empty line in comment
+hoons/arvo/sur/rfc.hoon 2:1 Test::Whitespace fordfile:vgap:empty-line fordfile @2:1; empty line in comment
+hoons/arvo/sur/gmail-label.hoon 16:1 Test::Whitespace fordfile:sequence-vgap:empty-line fordfile @16:1; empty line in comment
