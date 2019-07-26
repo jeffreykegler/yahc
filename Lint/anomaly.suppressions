@@ -1462,3 +1462,6 @@ hoons/arvo/sur/gmail-label.hoon 16:1 Test::Whitespace fordfile:sequence-vgap:emp
 # Sail aberrations
 hoons/arvo/sys/vane/eyre.hoon 577:7 Test::Whitespace sail:top-tail:tistis-indent TISTIS @577:7; overindented by 2
 hoons/arvo/web/dojo.hoon 14:18 Test::Whitespace sail:body-tight-indent Sail attribute body @14:18; overindented by 1
+
+# Hint aberrations
+hoons/arvo/sys/vane/eyre.hoon 1945:9 Test::Whitespace siggar:hint-body-indent SIGGAL/SIGGAR hint body @1945:9; underindented by 2
