@@ -1179,13 +1179,14 @@ There are currently four kinds of jogging hoon:
   A 1-jogging has one head and no tail.
 
 * The current 2-jogging rules are CENTAR (`%*`) and WUTLUS (`?+`).
-  A 2-jogging has a head and a subhead and no tail.
+  A 2-jogging has a head and a subhead but no tail.
 
 * The current jogging-1 rule is TISCOL (`=:`).
   A jogging-1 has a tail and no head.
 
 * The current 2-jogging-1 statement is SIGCEN (`~%`).
-  A 2-jogging has a head a subhead and a tail.
+  A 2-jogging-1 statement has
+  a head, a subhead, and a tail.
 
 ## Joggings
 
@@ -1594,6 +1595,8 @@ in lexical order:
 
 ## SIGCEN
 
+SIGCEN does not reanchor.
+
 *From `sys/hoon.hoon`, lines 3684-6234:*
 ```
 ~%    %qua
@@ -1632,7 +1635,7 @@ The jog head should be aligned one stop after the initial TISTIS.
 The jog body should be tightly aligned,
 or inter-line aligned with other bodies in the formula
 list.
-Successive formulas should be separated by a verticial
+Successive formulas should be separated by a vertical
 gap with comments aligned with the jogs.
 
 # Battery hoons
@@ -1650,6 +1653,8 @@ and the pre-column is two stops after the base column.
 The base column of the battery is specified below,
 in the description of each battery hoon.
 Arms may be joined or split.
+
+A battery arm reanchors at BARCEN.
 
 *From sieve_k example, line 6:*
 ```
@@ -2347,7 +2352,7 @@ In other words,
 if a running has runestep alignment,
 the running-inherited alignment is undefined.
 
-# Appendix: Vertical gap body
+# Appendix: Formal definition of "vertical gap body"
 
 The format of a vertical gap body obeys the BNF
 
