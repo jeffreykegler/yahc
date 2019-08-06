@@ -93,9 +93,6 @@ sub setInheritedAttribute {
     $policy->{perNode}->{$nodeIX}->{$attribute} = $value;
 }
 
-# For efficiency, this caches inherited attributes in the nodes
-# between the querent node and the node with the attribute.  Because
-# of this inherited attributes *CANNOT* be changed, once accessed.
 sub getInheritedAttribute {
     my ( $policy, $node, $attribute ) = @_;
     my $nodeIX        = $node->{IX};
@@ -104,7 +101,6 @@ sub getInheritedAttribute {
     $node = $node->{PARENT};
     die qq{Ascended tree but did not find attributee "$attribute"} if not $node;
     $value = $policy->getInheritedAttribute($node, $attribute);
-    $policy->setInheritedAttribute($node, $attribute, $value);
     return $value;
 }
 
@@ -2729,9 +2725,12 @@ sub checkJogging {
     my ( $policy, $node ) = @_;
     my $instance = $policy->{lint};
     my $children = $node->{children};
-
     my ( $parentLine, $parentColumn ) = $instance->nodeLC($node);
-    my ($jogBaseColumn, $chessSide, $joggingHoonNode ) = @{$policy->getJoggingData($node)};
+
+    my $joggingHoonData = $policy->getInheritedAttribute($node, 'joggingHoonData');
+    my $jogBaseColumn = $joggingHoonData->{jogBaseColumn};
+    my $chessSide = $joggingHoonData->{chessSide};
+    my $joggingHoonNode = $joggingHoonData->{node};
     my ( $anchorLine, $anchorColumn ) = $instance->nodeLC($joggingHoonNode);
     my $runeName = $policy->runeName($joggingHoonNode);
 
@@ -4106,103 +4105,44 @@ sub chainAlignmentData {
     return $chainAlignmentData;
 }
 
-# TODO: Delete after development
-sub getJoggingData {
-    my ( $policy, $node ) = @_;
-
-    my $instance    = $policy->{lint};
-    my $joggingRule = $instance->{joggingRule};
-
-    # Recursively check parents of this hoon
-  NODE: while (1) {
-        my $nodeName = $instance->brickName($node);
-        if ( $nodeName and $joggingRule->{$nodeName} ) {
-            my $nodeIX        = $node->{IX};
-            my $chessSide     = $policy->{perNode}->{$nodeIX}->{chessSide};
-            my $jogBaseColumn = $policy->{perNode}->{$nodeIX}->{jogBaseColumn};
-            return [ $jogBaseColumn, $chessSide, $node ];
-        }
-        $node = $node->{PARENT};
-    }
-    die ;
-}
-
-# TODO: Delete after development?
-# Assumes that $node is a jogging hoon
-sub setJoggingData {
-    my ( $policy, $node, $anchorColumn ) = @_;
-    my $nodeIX      = $node->{IX};
-    my $instance    = $policy->{lint};
-    my $joggingRule = $instance->{joggingRule};
-    my $nodeName    = $instance->brickName($node);
-
-    my $children = $node->{children};
-    my $previousChild;
-  CHILD: for my $childIX ( 0 .. $#$children ) {
-        my $child  = $children->[$childIX];
-        my $symbol = $instance->symbol($child);
-        if ($symbol ne 'rick5d' and $symbol ne 'ruck5d') {
-            $previousChild = $child;
-            next CHILD;
-        }
-        my ($previousChildLine) = $instance->nodeLC( $previousChild );
-        my $chessSide = $policy->chessSideOfJogging( $child, $anchorColumn, $previousChildLine+1 );
-        $policy->{perNode}->{$nodeIX}->{chessSide} = $chessSide;
-        my $baseColumn = $anchorColumn + ( $chessSide eq 'queenside' ? 4 : 2 );
-        $policy->{perNode}->{$nodeIX}->{jogBaseColumn} =
-          $baseColumn;
-        return [ $baseColumn, $chessSide ];
-    }
-    die "No jogging found for ", $instance->symbol($node);
-}
-
 sub joggingHoonData {
-    my ( $policy, $node, $anchorColumn ) = @_;
-    my %result = ();
-    my $instance    = $policy->{lint};
+    my ( $policy, $options, $node ) = @_;
+    my $runeName = $policy->runeName($node);
+    my %result   = ( node => $node, runeName => $runeName );
+    my $instance = $policy->{lint};
     my $children = $node->{children};
-    my $previousChild;
-  CHILD: for my $childIX ( 0 .. $#$children ) {
-        my $child  = $children->[$childIX];
-        my $symbol = $instance->symbol($child);
-        if ($symbol ne 'rick5d' and $symbol ne 'ruck5d') {
-            $previousChild = $child;
-            next CHILD;
-        }
-        my ($previousChildLine) = $instance->nodeLC( $previousChild );
-        my $chessSide = $policy->chessSideOfJogging( $child, $anchorColumn, $previousChildLine+1 );
-        $result{chessSide} = $chessSide;
-        my $baseColumn = $anchorColumn + ( $chessSide eq 'queenside' ? 4 : 2 );
-        $result{jogBaseColumn} = $baseColumn;
-        my $jogBodyData = $policy->joggingBodyAlignment($child);
-        ($result{bodyAlignment}, $result{alignments}) = @{$jogBodyData};
-        return \%result;
+    my $anchorColumn = $options->{anchorColumn};
+    if ( not defined $anchorColumn ) {
+        ( undef, $anchorColumn ) = $instance->nodeLC($node);
     }
-    die "No jogging found for ", $instance->symbol($node);
-}
+    $result{anchorColumn} = $anchorColumn;
+    my $firstOKJogLine = $options->{firstOKJogLine} // 0;
+    $result{firstOKJogLine} = $firstOKJogLine;
 
-# Slight variation of joggingHoonData().  Merge the two?
-# Or are they going to differ further?
-sub jogging1HoonData {
-    my ( $policy, $node, $anchorColumn ) = @_;
-    my %result = ();
-    my $instance    = $policy->{lint};
-    my $children = $node->{children};
     my $previousChild;
   CHILD: for my $childIX ( 0 .. $#$children ) {
         my $child  = $children->[$childIX];
         my $symbol = $instance->symbol($child);
-        if ($symbol ne 'rick5d' and $symbol ne 'ruck5d') {
+        if ( $symbol ne 'rick5d' and $symbol ne 'ruck5d' ) {
             $previousChild = $child;
             next CHILD;
         }
-        my ($previousChildLine) = $instance->nodeLC( $previousChild );
-        my $chessSide = 'kingside';
-        $result{chessSide} = $chessSide;
-        my $baseColumn = $anchorColumn + 4;
-        $result{jogBaseColumn} = $baseColumn;
+        my ($previousChildLine) = $instance->nodeLC($previousChild);
+        if ($runeName eq 'tiscol') {
+            my $chessSide = 'kingside';
+            $result{chessSide} = $chessSide;
+            my $baseColumn = $anchorColumn + 4;
+            $result{jogBaseColumn} = $baseColumn;
+        } else {
+            my $chessSide =
+              $policy->chessSideOfJogging( $child, $anchorColumn,
+                $previousChildLine + 1 );
+            $result{chessSide} = $chessSide;
+            my $baseColumn = $anchorColumn + ( $chessSide eq 'queenside' ? 4 : 2 );
+            $result{jogBaseColumn} = $baseColumn;
+        }
         my $jogBodyData = $policy->joggingBodyAlignment($child);
-        ($result{bodyAlignment}, $result{alignments}) = @{$jogBodyData};
+        ( $result{bodyAlignment}, $result{alignments} ) = @{$jogBodyData};
         return \%result;
     }
     die "No jogging found for ", $instance->symbol($node);
@@ -4271,68 +4211,6 @@ sub chessSideOfJogging {
     return $kingsideCount > $queensideCount
       ? 'kingside'
       : 'queenside';
-}
-
-# TODO: Delete after development
-# Find the body column, based on alignment within
-# a parent hoon.
-sub bodyColumn {
-    my ( $policy, $node ) = @_;
-    my $nodeIX        = $node->{IX};
-    my $jogBodyData = $policy->{perNode}->{$nodeIX}->{jogBodyData};
-    return $jogBodyData if defined $jogBodyData;
-
-    my $instance     = $policy->{lint};
-    my $joggingRules = $instance->{joggingRule};
-    my $joggingRule  = $instance->{joggingRule};
-    my $nodeName     = $instance->brickName($node);
-    if ( not $nodeName or not $joggingRule->{$nodeName} ) {
-        my $jogBodyData =
-          $policy->bodyColumn( $node->{PARENT}, $joggingRules );
-        $policy->setInheritedAttribute($node, 'oldJogBodyData', $jogBodyData);
-        return $jogBodyData;
-    }
-
-    my $children = $node->{children};
-  CHILD: for my $childIX ( 0 .. $#$children ) {
-        my $child  = $children->[$childIX];
-        my $symbol = $instance->symbol($child);
-        next CHILD if $symbol ne 'rick5d' and $symbol ne 'ruck5d';
-        my $jogBodyData = $policy->joggingBodyAlignment($child);
-        $policy->setInheritedAttribute($node, 'oldJogBodyData', $jogBodyData);
-        return $jogBodyData;
-    }
-    die "No jogging found for ", $instance->symbol($node);
-}
-
-# TODO: Delete this?
-# Compute the alignment for a chained series of fixed-N
-# runes
-sub chainedAlignment {
-    my ( $policy, $link0 ) = @_;
-    my $instance  = $policy->{lint};
-    my $chainable = $policy->{chainable};
-    my $grammar   = $instance->{grammar};
-
-    # Assumes link is chainable
-    my $link = $link0;
-    my ( $linkLine, $linkColumn ) = $instance->line_column( $link->{start} );
-    my $alignment0 = $linkColumn;
-
-  LINK: while (1) {
-        my $children = $link->{children};
-
-        # compute next link
-        $link = $children->[$#$children];
-        my $ruleID = $link->{ruleID};
-        my ( $lhs, @rhs ) = $grammar->rule_expand( $link->{ruleID} );
-        my $lhsName = $grammar->symbol_name($lhs);
-
-        # last LINK if next is not chainable
-        last LINK unless $chainable->{$lhsName};
-        ( $linkLine, $linkColumn ) = $instance->line_column( $link->{start} );
-    }
-
 }
 
 # Find the oversize alignment for this column of elements.
@@ -4431,77 +4309,99 @@ sub check_1Jogging {
     my ( $tistisLine,  $tistisColumn )  = $instance->nodeLC($tistis);
     my ( $anchorLine,  $anchorColumn )  = ( $runeLine, $runeColumn );
 
-    my $joggingHoonData = $policy->joggingHoonData($node, $anchorColumn);
-    $policy->setInheritedAttribute($node, 'joggingHoonData', $joggingHoonData);
-
-    $policy->setJoggingData( $node, $anchorColumn );
+    my $joggingHoonData =
+      $policy->joggingHoonData( { firstOKJogLine => $headLine + 1 }, $node );
+    $policy->setInheritedAttribute( $node, 'joggingHoonData',
+        $joggingHoonData );
     my $jogBaseColumn = $joggingHoonData->{jogBaseColumn};
-    my $chessSide = $joggingHoonData->{chessSide};
+    my $chessSide     = $joggingHoonData->{chessSide};
 
     my $joggingRules = $instance->{joggingRule};
 
     my @mistakes = ();
     my $runeName = $policy->runeName($node);
 
-    CHECK_HEAD: {
-    if ( $headLine != $runeLine ) {
-        my $msg = sprintf
-          "%s %s head %s; should be on rune line %d",
-          $chessSide,
-          $runeName,
-          describeLC( $headLine, $headColumn ),
-          $runeLine;
-        push @mistakes,
-          {
-            desc         => $msg,
-            subpolicy    => [ $runeName, 'split' ],
-            parentLine   => $runeLine,
-            parentColumn => $runeColumn,
-            line         => $headLine,
-            column       => $headColumn,
-            reportLine   => $headLine,
-            reportColumn => $headColumn,
-            expectedLine => $runeLine,
-          };
-          last CHECK_HEAD;
+  CHECK_HEAD: {
+        if ( $headLine != $runeLine ) {
+            my $msg = sprintf
+              "%s %s head %s; should be on rune line %d",
+              $chessSide,
+              $runeName,
+              describeLC( $headLine, $headColumn ),
+              $runeLine;
+            push @mistakes,
+              {
+                desc         => $msg,
+                subpolicy    => [ $runeName, 'split' ],
+                parentLine   => $runeLine,
+                parentColumn => $runeColumn,
+                line         => $headLine,
+                column       => $headColumn,
+                reportLine   => $headLine,
+                reportColumn => $headColumn,
+                expectedLine => $runeLine,
+              };
+            last CHECK_HEAD;
+        }
+
+        my $expectedColumn =
+          $anchorColumn + ( $chessSide eq 'kingside' ? 4 : 6 );
+        if ( $headColumn != $expectedColumn ) {
+            my $msg = sprintf
+              "%s %s head %s; %s",
+              $chessSide,
+              $runeName,
+              describeLC( $headLine, $headColumn ),
+              describeMisindent2( $headColumn, $expectedColumn );
+            push @mistakes,
+              {
+                desc         => $msg,
+                subpolicy    => [ $runeName, 'head-hgap' ],
+                parentLine   => $runeLine,
+                parentColumn => $runeColumn,
+                line         => $headLine,
+                column       => $headColumn,
+                reportLine   => $headLine,
+                reportColumn => $headColumn,
+              };
+        }
     }
 
-    my $expectedColumn = $anchorColumn + ( $chessSide eq 'kingside' ? 4 : 6 );
-    if ( $headColumn != $expectedColumn ) {
-        my $msg = sprintf
-          "%s %s head %s; %s",
-          $chessSide,
-          $runeName,
-          describeLC( $headLine, $headColumn ),
-          describeMisindent2( $headColumn, $expectedColumn );
+  CHECK_JOGGING_GAP: {
+        if ( $headLine == $joggingLine ) {
+            my $msg = sprintf
+              "%s %s jogging %s should not be joined",
+              $chessSide,
+              $runeName,
+              describeLC( $joggingLine, $joggingColumn );
+            push @mistakes,
+              {
+                desc         => $msg,
+                subpolicy    => [ $runeName, 'jogging-joined' ],
+                parentLine   => $runeLine,
+                parentColumn => $runeColumn,
+                line         => $joggingLine,
+                column       => $joggingColumn,
+                reportLine   => $joggingLine,
+                reportColumn => $joggingColumn,
+              };
+            last CHECK_JOGGING_GAP;
+        }
         push @mistakes,
-          {
-            desc         => $msg,
-            subpolicy    => [ $runeName, 'head-hgap' ],
-            parentLine   => $runeLine,
-            parentColumn => $runeColumn,
-            line         => $headLine,
-            column       => $headColumn,
-            reportLine   => $headLine,
-            reportColumn => $headColumn,
+          @{
+            $policy->checkOneLineGap(
+                $joggingGap,
+                {
+                    mainColumn => $anchorColumn,
+                    preColumn  => $jogBaseColumn,
+                    tag        => $runeName,
+                    subpolicy  => [ $runeName, 'jogging-gap' ],
+                    parent     => $rune,
+                    topicLines => [$joggingLine],
+                }
+            )
           };
     }
-    }
-
-    push @mistakes,
-      @{
-        $policy->checkOneLineGap(
-            $joggingGap,
-            {
-                mainColumn => $anchorColumn,
-                preColumn  => $jogBaseColumn,
-                tag        => $runeName,
-                subpolicy  => [ $runeName, 'jogging-gap' ],
-                parent     => $rune,
-                topicLines => [$joggingLine],
-            }
-        )
-      };
 
     push @mistakes,
       @{
@@ -4550,10 +4450,8 @@ sub check_2Jogging {
     my ( $joggingLine, $joggingColumn ) = $instance->nodeLC($jogging);
     my ( $tistisLine,  $tistisColumn )  = $instance->nodeLC($tistis);
 
-    my $joggingHoonData = $policy->joggingHoonData($node, $anchorColumn);
+    my $joggingHoonData = $policy->joggingHoonData({}, $node );
     $policy->setInheritedAttribute($node, 'joggingHoonData', $joggingHoonData);
-
-    $policy->setJoggingData( $node, $anchorColumn );
     my $jogBaseColumn = $joggingHoonData->{jogBaseColumn};
     my $chessSide = $joggingHoonData->{chessSide};
     my $isKingside   = $chessSide eq 'kingside';
@@ -4732,16 +4630,10 @@ sub check_Jogging1 {
     my ( $tailLine,    $tailColumn )    = $instance->nodeLC($tail);
     my ( $anchorLine,  $anchorColumn )  = ( $runeLine, $runeColumn );
 
-    my $joggingHoonData = $policy->jogging1HoonData($node, $anchorColumn);
+    my $joggingHoonData = $policy->joggingHoonData({}, $node );
     $policy->setInheritedAttribute($node, 'joggingHoonData', $joggingHoonData);
     my $jogBaseColumn = $joggingHoonData->{jogBaseColumn};
     my $chessSide = $joggingHoonData->{chessSide};
-
-    # All jogging-1 hoons are kingside
-    # my $nodeIX = $node->{IX};
-    # $policy->{perNode}->{$nodeIX}->{chessSide} = 'kingside';
-    # my $jogBaseColumn = $anchorColumn + 4;
-    # $policy->{perNode}->{$nodeIX}->{jogBaseColumn} = $jogBaseColumn;
 
     my @mistakes = ();
 
@@ -5165,28 +5057,22 @@ sub checkFastis {
 sub checkKingsideJog {
     my ( $policy, $node, $expectedHeadColumn ) = @_;
     my $instance          = $policy->{lint};
-    my $tall_Jogging1Rule = $instance->{tallJogging1_Rule};
     my $fileName          = $instance->{fileName};
     my $grammar           = $instance->{grammar};
     my $ruleID            = $node->{ruleID};
     my ( $parentLine, $parentColumn ) =
       $instance->line_column( $node->{start} );
 
-    my $joggingRules = $instance->{joggingRule};
-    my ($jogBodyColumn, $jogBodyColumnLines) = @{$policy->bodyColumn( $node, $joggingRules )};
+    my $joggingHoonData = $policy->getInheritedAttribute($node, 'joggingHoonData');
+    my $jogBodyColumn = $joggingHoonData->{bodyAlignment};
     $jogBodyColumn //= -1;
+    my $jogBodyColumnLines = $joggingHoonData->{alignments};
+    my $runeName = $joggingHoonData->{runeName};
+    my $brickNode = $joggingHoonData->{node};
+    my ( $brickLine, $brickColumn ) = $instance->nodeLC($brickNode);
+    my $baseColumn = $joggingHoonData->{jogBaseColumn};
 
     my @mistakes = ();
-
-    # Replace inherited attribute rune LC with brick LC
-    my $brickNode = $instance->brickNode($node);
-    my $runeName = $policy->runeName($brickNode);
-    my $tag      = $runeName;
-
-    my ( $brickLine, $brickColumn ) = $instance->nodeLC($brickNode);
-    my $brickName = $instance->brickName($brickNode);
-    my $baseColumn =
-      $tall_Jogging1Rule->{$brickName} ? $brickColumn + 4 : $brickColumn + 2;
 
     my $children = $node->{children};
     my $head     = $children->[0];
@@ -5226,7 +5112,7 @@ sub checkKingsideJog {
             my @topicLines = ($brickLine);
             if ( $jogBodyColumn < 0 ) {
               $misindent = describeMisindent2( $gapLength, 2 );
-                $details = [ [ $tag, "no inter-line alignment detected" ] ];
+                $details = [ [ $runeName, "no inter-line alignment detected" ] ];
             }
             else {
               $misindent = describeMisindent2( $bodyColumn, $jogBodyColumn );
@@ -5234,7 +5120,7 @@ sub checkKingsideJog {
                 push @topicLines, @{$jogBodyColumnLines};
                 $details = [
                     [
-                        $tag,
+                        $runeName,
                         sprintf 'inter-line alignment is %d, see %s',
                         $oneBasedColumn,
                         (
@@ -5336,7 +5222,7 @@ sub checkKingsideJog {
             topicLines     => [$brickLine],
             details        => [
                 [
-                    $tag,
+                    $runeName,
                     sprintf qq{lexeme "%s" %s},
                     $instance->lexeme( $brickLine, $brickColumn ),
                     describeLC( $brickLine, $brickColumn )
@@ -5352,9 +5238,9 @@ sub checkKingsideJog {
             $gap,
             {
                 mainColumn => $expectedBodyColumn,
-                tag        => $tag,
+                tag        => $runeName,
                 subpolicy => [ $runeName ],
-                details    => [ [$tag] ],
+                details    => [ [$runeName] ],
                 topicLines => [ $bodyLine, $brickLine ],
             }
         )
@@ -5377,13 +5263,12 @@ sub checkQueensideJog {
     my $joggingRules = $instance->{joggingRule};
     my $joggingHoonData = $policy->getInheritedAttribute($node, 'joggingHoonData');
     my $jogBodyColumn = $joggingHoonData->{bodyAlignment};
-    my $jogBodyColumnLines = $joggingHoonData->{alignments};
     $jogBodyColumn //= -1;
-
-    my $brickNode = $instance->brickNode($node);
-    my $runeName = $policy->runeName($brickNode);
-    my $tag      = $runeName;
+    my $jogBodyColumnLines = $joggingHoonData->{alignments};
+    my $runeName = $joggingHoonData->{runeName};
+    my $brickNode = $joggingHoonData->{node};
     my ( $brickLine, $brickColumn ) = $instance->nodeLC($brickNode);
+    my $baseColumn = $joggingHoonData->{jogBaseColumn};
 
     my $children = $node->{children};
     my $head     = $children->[0];
@@ -5425,7 +5310,7 @@ sub checkQueensideJog {
             if ($jogBodyColumn < 0) {
               $misindent = describeMisindent2( $gapLength, 2 );
                $details = [
-                  [ $tag,
+                  [ $runeName,
                   "no inter-line alignment detected"
                   ]
                ];
@@ -5434,7 +5319,7 @@ sub checkQueensideJog {
                my $oneBasedColumn = $jogBodyColumn+1;
                push @topicLines, @{$jogBodyColumnLines};
                $details = [
-                  [ $tag,
+                  [ $runeName,
                   sprintf 'inter-line alignment is %d, see %s', $oneBasedColumn,
                   (join q{ }, map { $_ . ':' . $oneBasedColumn } @{$jogBodyColumnLines})
                   ]
@@ -5482,7 +5367,7 @@ sub checkQueensideJog {
             topicLines     => [$brickLine],
             details        => [
                 [
-                    $tag,
+                    $runeName,
                     sprintf qq{lexeme "%s" %s},
                     $instance->lexeme( $brickLine, $brickColumn ),
                     describeLC( $brickLine, $brickColumn )
@@ -5498,9 +5383,9 @@ sub checkQueensideJog {
             $gap,
             {
                 mainColumn => $expectedBodyColumn,
-                tag        => $tag,
+                tag        => $runeName,
                 subpolicy => [ $runeName ],
-                details    => [ [$tag] ],
+                details    => [ [$runeName] ],
                 topicLines => [ $bodyLine, $brickLine ],
             }
         )
@@ -5517,6 +5402,15 @@ sub checkJog {
 
     my $joggingHoonData = $policy->getInheritedAttribute($node, 'joggingHoonData');
     my $jogBaseColumn = $joggingHoonData->{jogBaseColumn};
+
+    # This is to suppress detailed complaints about the first jog 
+    # of a "joined" jogging.  A complaint will be made at the jogging
+    # hoon level, and the detailed ones for the jog are redundant
+    # and confusing.
+    my $firstOKJogLine = $joggingHoonData->{firstOKJogLine};
+    my ($jogLine) = $instance->nodeLC($node);
+    return [] if $jogLine < $firstOKJogLine;
+
     my $chessSide = $joggingHoonData->{chessSide};
     return $policy->checkQueensideJog($node, $jogBaseColumn)
       if $chessSide eq 'queenside';
