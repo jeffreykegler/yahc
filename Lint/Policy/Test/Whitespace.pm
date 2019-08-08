@@ -1693,10 +1693,6 @@ sub checkElemKids {
               };
         }
 
-# say STDERR join " ", __FILE__, __LINE__, $instance->symbol($kid);
-# say STDERR join " ", __FILE__, __LINE__, describeLC($instance->nodeLC($kid));
-# say STDERR join " ", __FILE__, __LINE__, '[' . $instance->literalNode($kid) . ']';
-
     }
 
     return \@mistakes;
@@ -1711,9 +1707,12 @@ sub checkRunning {
     my ( $policy, $options ) = @_;
     my $instance        = $policy->{lint};
     my $runningChildren = $options->{children};
-    my $tag             = $options->{tag} or die "No tag";
     my $anchorColumn    = $options->{anchorColumn};
     my $expectedColumn  = $options->{expectedColumn};
+
+    my @subpolicy = ();
+    my $subpolicy = $options->{subpolicy};
+    push @subpolicy, @{$subpolicy} if defined $subpolicy;
 
     # by default, in fact always at this point, the running can be
     # found as the parent of the last running child, and the parent
@@ -1744,15 +1743,11 @@ sub checkRunning {
         # in a row (or line) is at index 0.
         my $pileIX = 0;
       RUNSTEP: while (1) {
-        # say STDERR join " ", __FILE__, __LINE__, $childIX, $pileIX;
             last RUNNING_LINE if $childIX + 1 > $#$runningChildren;
             my $gap       = $runningChildren->[$childIX];
             my $runStep   = $runningChildren->[ $childIX + 1 ];
             my ($gapLine) = $instance->nodeLC($gap);
             my ( $runStepLine, $runStepColumn ) = $instance->nodeLC($runStep);
-        # say STDERR sprintf q{Gap: "%s"}, $instance->literalNode($gap);
-        # say STDERR sprintf q{Runstep: "%s"}, $instance->literalNode($runStep);
-        # say STDERR join " ", __FILE__, __LINE__, "gapline vs. run step line", $gapLine, $runStepLine;
             last RUNSTEP if $gapLine != $runStepLine;
 
             # Uses Perl's autoinstantiation
@@ -1792,35 +1787,27 @@ sub checkRunning {
         {
             my $runStep = $runningChildren->[$runStepIX];
 
-            # say STDERR "Child $runStepIX: ", $instance->literalNode($runStep);
             my $brickDescendant = $instance->brickDescendant($runStep);
             last RUNSTEP if not $brickDescendant;
 
-            # say STDERR "Brick $runStepIX: ",
               $instance->literalNode($brickDescendant);
             next RUNSTEP if not $policy->chainable($brickDescendant);
 
             push @bricks, $brickDescendant;
-            # say STDERR "Chainable Child $runStepIX: ",
               $instance->literalNode($brickDescendant);
             my $gapSeq = $policy->gapSeq0($brickDescendant);
           BRICK_ELEMENT: for ( my $elementIX = 0 ; ; $elementIX++ ) {
-                # say STDERR join " ", __FILE__, __LINE__;
                 my $seqIX = $elementIX * 2;
                 last BRICK_ELEMENT if $seqIX >= $#$gapSeq;
                 my $gap     = $gapSeq->[$seqIX];
                 my $element = $gapSeq->[ $seqIX + 1 ];
-                # say STDERR join " ", __FILE__, __LINE__;
                 push @{ $nodesToAlignByElement[$elementIX] }, $gap, $element;
             }
-            # say STDERR join " ", __FILE__, __LINE__;
         }
 
         last RUNNING_CHILD_ALIGNMENTS unless scalar @nodesToAlignByElement;
 
-        # say STDERR join " ", __FILE__, __LINE__;
         my @runStepChildAlignments = ();
-        # say STDERR join " ", __FILE__, __LINE__;
       ELEMENT:
         for (
             my $elementIX = 0 ;
@@ -1828,7 +1815,6 @@ sub checkRunning {
             $elementIX++
           )
         {
-            # say STDERR join " ", __FILE__, __LINE__;
             my $nodesToAlign = $nodesToAlignByElement[$elementIX];
             if ( not $nodesToAlign ) {
                 $runStepChildAlignments[$elementIX] = [ -1, [] ];
@@ -1866,12 +1852,15 @@ sub checkRunning {
         push @mistakes,
           {
             desc           => $msg,
+            subpolicy => [ @subpolicy, 'runstep-indent' ],
             parentLine     => $thisRunStepLine,
             parentColumn   => $runStepColumn,
             line           => $thisRunStepLine,
             column         => $runStepColumn,
+            reportLine           => $thisRunStepLine,
+            reportColumn         => $runStepColumn,
             topicLines     => [$runeLine],
-            details        => [ [ $tag, @{$anchorDetails} ] ],
+            details        => [ [ $runeName, @{$anchorDetails} ] ],
           };
     }
 
@@ -1911,7 +1900,6 @@ sub checkRunning {
 
             my $details;
             my @topicLines = ();
-            # say STDERR qq{$pileAlignmentColumn and $pileAlignmentColumn >= $tightColumn};
             if (defined $pileAlignmentColumn and $pileAlignmentColumn >= $tightColumn) {
                 push @allowedColumns, [ $pileAlignmentColumn => 'runstep' ];
                 my $oneBasedColumn = $pileAlignmentColumn + 1;
@@ -1919,7 +1907,7 @@ sub checkRunning {
                 push @topicLines, @{$pileAlignmentLines};
                 $details = [
                     [
-                        $tag,
+                        $runeName,
                         sprintf 'runstep alignment is %d, see %s',
                         $oneBasedColumn,
                         (
@@ -1931,7 +1919,7 @@ sub checkRunning {
                 ];
             }
             else {
-                $details = [ [ $tag, "no runstep alignment detected" ] ];
+                $details = [ [ $runeName, "no runstep alignment detected" ] ];
             }
 
             my @sortedColumns = sort { $a->[0] <=> $b->[0] } @allowedColumns;
@@ -1951,13 +1939,13 @@ sub checkRunning {
             push @mistakes,
               {
                 desc           => $msg,
+                subpolicy      => [ @subpolicy, 'runstep-hgap' ],
                 parentLine     => $runeLine,
                 parentColumn   => $runeColumn,
                 line           => $thisRunStepLine,
                 column         => $runStepColumn,
                 reportLine     => $thisRunStepLine,
                 reportColumn   => $runStepColumn,
-                subpolicy      => $policy->nodeSubpolicy($parent) . ':hgap',
                 topicLines => \@topicLines,
                 details => $details,
               };
@@ -1979,14 +1967,13 @@ sub checkRunning {
                     {
                         mainColumn => $anchorColumn,
                         preColumn  => $runStepColumn,
-                        tag =>
-                          ( sprintf 'runstep #%d', int( 1 + $childIX / 2 ) ),
-                        subpolicy  => [ $runeName ],
+                        tag => $runeName,
+                        subpolicy  => [ @subpolicy, 'runstep-vgap' ],
                         parent     => $runStep,
                         topicLines => [$runeLine],
                         details    => [
                             [
-                                $tag,
+                                $runeName,
                                 'inter-comment indent should be '
                                   . ( $anchorColumn + 1 ),
                                 'pre-comment indent should be '
@@ -2008,12 +1995,15 @@ sub checkRunning {
             push @mistakes,
               {
                 desc           => $msg,
+                subpolicy => [ @subpolicy, 'runstep-indent' ],
                 parentLine     => $thisRunStepLine,
                 parentColumn   => $runStepColumn,
                 line           => $thisRunStepLine,
                 column         => $runStepColumn,
+                reportLine           => $thisRunStepLine,
+                reportColumn         => $runStepColumn,
                 topicLines     => [$runeLine],
-                details        => [ [ $tag, @{$anchorDetails} ] ],
+                details        => [ [ $runeName, @{$anchorDetails} ] ],
               };
         }
 
@@ -2021,8 +2011,6 @@ sub checkRunning {
         $runStepCount = 2;
 
     }
-
-    # say join " ", __FILE__, __LINE__, 'childIX', $childIX, $#$runningChildren;
 
     return \@mistakes;
 
@@ -2055,35 +2043,44 @@ sub check_0Running {
     my ( $runeLine, $runeColumn ) = $instance->nodeLC($rune);
     my ( $anchorLine, $anchorColumn ) = ( $runeLine, $runeColumn );
     my $anchorData;
-    CHECK_FOR_ANCHORING: {
-    if ( $runeName eq 'colsig' ) {
+  CHECK_FOR_ANCHORING: {
+        if ( $runeName eq 'colsig' ) {
 
-        # say join " ", __FILE__, __LINE__, $runeLine, $runeColumn;
-        # TODO: Cleanup after development
-        ( $anchorColumn, $anchorData ) = $policy->reanchorInc(
-            $node,
-            {
-                'tallCendot' => 1,
-                'tallCenhep' => 1,
-                'tallCenlus' => 1,
-                'tallCollus' => 1,
-                'tallKethep' => 1,
-                'tallTisfas' => 1,
-                'tallTisgar' => 1,
-            }
-        );
-        last CHECK_FOR_ANCHORING;
-    }
-    if ( $runeName eq 'tissig' ) {
-        ( $anchorColumn, $anchorData ) = $policy->reanchorInc(
-            $node,
-            {
-                'tallTisgar' => 1,
-                'tallWutlus' => 1,
-            }
-        );
-        last CHECK_FOR_ANCHORING;
-    }
+            ( $anchorColumn, $anchorData ) = $policy->reanchorInc(
+                $node,
+                {
+                    'tallCendot' => 1,
+                    'tallCenhep' => 1,
+                    'tallCenlus' => 1,
+                    'tallCollus' => 1,
+                    'tallKethep' => 1,
+                    'tallTisfas' => 1,
+                    'tallTisgar' => 1,
+                }
+            );
+            last CHECK_FOR_ANCHORING;
+        }
+        if ( $runeName eq 'coltar' ) {
+
+            # TODO: Cleanup after development
+            ( $anchorColumn, $anchorData ) = $policy->reanchorInc(
+                $node,
+                {
+                    'tallCenhep' => 1,
+                }
+            );
+            last CHECK_FOR_ANCHORING;
+        }
+        if ( $runeName eq 'tissig' ) {
+            ( $anchorColumn, $anchorData ) = $policy->reanchorInc(
+                $node,
+                {
+                    'tallTisgar' => 1,
+                    'tallWutlus' => 1,
+                }
+            );
+            last CHECK_FOR_ANCHORING;
+        }
     }
     my $anchorDetails;
     $anchorDetails = $policy->anchorDetails( $node, $anchorData )
@@ -3579,7 +3576,7 @@ sub checkSplit_0Running {
         $policy->checkOneLineGap(
             $runningGap,
             {
-                mainColumn => $runeColumn,
+                mainColumn => $anchorColumn,
                 preColumn  => $expectedColumn,
                 tag        => $runeName,
                 subpolicy => [ $runeName ],
@@ -3592,7 +3589,7 @@ sub checkSplit_0Running {
         $policy->checkRunning(
             {
                 children       => $runningChildren,
-                tag            => $runeName,
+                subpolicy => [ $runeName ],
                 anchorColumn   => $anchorColumn,
                 expectedColumn => $expectedColumn,
                 anchorDetails  => $anchorDetails,
@@ -3676,7 +3673,7 @@ sub checkJoined_0Running {
         $policy->checkRunning(
             {
                 children       => $runningChildren,
-                tag            => $runeName,
+                subpolicy => [ $runeName ],
                 anchorColumn   => $anchorColumn,
                 expectedColumn => $expectedColumn,
             }
@@ -3737,10 +3734,13 @@ sub check_1Running {
         push @mistakes,
           {
             desc         => $msg,
+            subpolicy => [ $runeName, 'head-split' ],
             parentLine   => $runeLine,
             parentColumn => $runeColumn,
             line         => $headLine,
             column       => $headColumn,
+            reportLine         => $headLine,
+            reportColumn       => $headColumn,
             expectedLine => $runeLine,
           };
     }
@@ -3754,10 +3754,13 @@ sub check_1Running {
         push @mistakes,
           {
             desc           => $msg,
+            subpolicy => [ $runeName, 'head-hgap' ],
             parentLine     => $runeLine,
             parentColumn   => $runeColumn,
             line           => $headLine,
             column         => $headColumn,
+            reportLine         => $headLine,
+            reportColumn       => $headColumn,
           };
     }
 
@@ -3774,7 +3777,7 @@ sub check_1Running {
                     mainColumn => $anchorColumn,
                     preColumn  => $runningColumn,
                     tag        => $runeName,
-                subpolicy => [ $runeName ],
+                    subpolicy => [ $runeName ],
                 }
             )
           };
@@ -3786,7 +3789,7 @@ sub check_1Running {
             $policy->checkRunning(
                 {
                     children       => \@runningChildren,
-                    tag            => $runeName,
+                subpolicy => [ $runeName ],
                     anchorColumn   => $anchorColumn,
                     expectedColumn => $expectedColumn,
                 }
@@ -3797,22 +3800,22 @@ sub check_1Running {
     else {
         # joined, that is, $headLine == $runningLine
         my $gapLength = $runningGap->{length};
-        my ( $runningGapLine, $runningGapColumn ) =
-          $instance->nodeLC($runningGap);
-        my $nextExpectedColumn = $runningGapColumn + 2;
 
-        if ( $nextExpectedColumn != $runningColumn ) {
+        if ( $gapLength != 2 ) {
             my $msg = sprintf
               "1-jogging running 1 %s; %s",
               describeLC( $runningLine, $runningColumn ),
-              describeMisindent( $runningColumn - $nextExpectedColumn );
+              describeMisindent2( $gapLength, 2 );
             push @mistakes,
               {
                 desc           => $msg,
+                subpolicy => [ $runeName, 'running-hgap' ],
                 parentLine     => $runeLine,
                 parentColumn   => $runeColumn,
                 line           => $runningLine,
                 column         => $runningColumn,
+                reportLine           => $runningLine,
+                reportColumn         => $runningColumn,
               };
         }
 
@@ -3824,7 +3827,7 @@ sub check_1Running {
                 {
                     skipFirst      => 1,
                     children       => \@runningChildren,
-                    tag            => $runeName,
+                subpolicy => [ $runeName ],
                     anchorColumn   => $anchorColumn,
                     expectedColumn => $expectedColumn
                 }
@@ -3844,7 +3847,7 @@ sub check_1Running {
                 mainColumn => $runeColumn,
                 preColumn  => $expectedColumn,
                 tag        => $runeName,
-                subpolicy => [ $runeName ],
+                subpolicy => [ $runeName, 'tistis-gap' ],
                 topicLines => [ $runeLine, $tistisLine ],
             }
         )
@@ -3858,6 +3861,7 @@ sub check_1Running {
             $tistis,
             {
                 tag            => $runeName,
+                subpolicy      => [$runeName],
                 expectedColumn => $runeColumn,
             }
         )

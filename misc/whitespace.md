@@ -876,7 +876,7 @@ a runechild before the running.
 That runechild
 is called the **head** of the running hoon.
 
-There are current three kinds of running hoons:
+There are two kinds of running hoons:
 
 * A **0-running** has no head.
 The current 0-running rules are
@@ -963,22 +963,18 @@ in lexical order:
 
 * Its rune.
 
-* A vertical gap, whose inter-column is the anchor column,
-  and whose pre-column is aligned at the runstep lines.
+* A vertical gap, with comments at the anchor column,
+  and aligned at the runstep lines.
 
-* A running where
+* A running where runstep lines are aligned one stop
+  after the anchor column.
+  The runstep lines are separated by
+  vertical gaps with comments
+  at the anchor column and
+  aligned with the runstep lines.
 
-    * runstep lines are aligned one stop
-      after the anchor column;
-
-    * the inter-column of the vertical gaps is
-      aligned at the anchor column; and
-
-    * the pre-column of the vertical gaps is
-      aligned at the runstep lines.
-
-* A vertical gap, whose inter-column is the anchor column,
-  and whose pre-column is aligned at the runstep lines.
+* A vertical gap, with comments at the anchor column,
+  and aligned at the runstep lines.
 
 * A TISTIS aligned at the anchor column.
 
@@ -987,6 +983,7 @@ in lexical order:
 
 ## 1-running hoons
 
+1-running hoon statements do not reanchor.
 1-running hoons can be joined or split.
 
 ### Joined 1-running hoons
@@ -1011,24 +1008,22 @@ in lexical order:
 
 * The first runstep line.
 
-* A vertical gap, whose inter-column is the anchor column,
-  and whose pre-column is aligned one stop after
+* A vertical gap with comments at the anchor column,
+  and aligned one stop after
   the anchor column.
 
 * The remainder of the running, where
+  runstep lines are aligned one stop
+  after the anchor column.
+  The runsteps lines should be separated by
+  vertical gaps with comments
+  at the anchor column and
+  aligned one stop after the anchor column.
 
-    - runstep lines are aligned one stop
-      after the anchor column;
-
-    - the inter-column of the vertical gaps is
-      aligned at the anchor column; and
-
-    - the pre-column of the vertical gaps is
-      aligned one stop after the anchor column.
-
-* A vertical gap, whose inter-column is the anchor column,
-  and whose pre-column is aligned one stop after the
-  the anchor column.
+* A vertical gap 
+  with comments
+  at the anchor column and
+  aligned one stop after the anchor column.
 
 * A TISTIS aligned at the anchor column.
 
@@ -1314,7 +1309,7 @@ part of a terminator, or part of a gap.
 ## 1-jogging hoons
 
 Every 1-jogging hoon is either kingside or queenside.
-1-jogging hoons are reanchor at KETLUS (`^+`).
+1-jogging hoons reanchor at KETLUS (`^+`).
 
 ### Kingside 1-jogging hoons
 
@@ -2540,3 +2535,12 @@ The `arvo/` corpus suggests that BARCEN reanchoring at TISGAR should
 be considered standard,
 but accepting BARCEN-to-TISGAR reanchoring as standard
 would make the tic-tac-toe example non-standard.
+
+On the other hand, lines 1323-1326 from `sys/vane/ames.hoon`
+suggest that TISGAR resists being an anchoring target:
+```
+=>  ^+  .   %=  .
+      q.r.neb  (~(put by q.r.neb) q.fud t.fud)
+      q.neb    +(q.neb)
+    ==
+```

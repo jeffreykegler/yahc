@@ -367,7 +367,7 @@ d</code></pre>
 <h1 id="running-hoons">Running hoons</h1>
 <p>A running runechild is more often called simply a <strong>running</strong>. Currently, no hoon contains more than one running.</p>
 <p>A running hoon may contain a runechild before the running. That runechild is called the <strong>head</strong> of the running hoon.</p>
-<p>There are current three kinds of running hoons:</p>
+<p>There are two kinds of running hoons:</p>
 <ul>
 <li>A <strong>0-running</strong> has no head. The current 0-running rules are BUCCEN (<code>$%</code>), BUCCOL (<code>$:</code>), BUCWUT (<code>$?</code>), COLSIG (<code>:~</code>), COLTAR (<code>:*</code>), TISSIG (<code>=~</code>), WUTBAR (<code>?|</code>), and WUTPAM (<code>?&amp;</code>).</li>
 </ul>
@@ -415,20 +415,15 @@ It's a 0-running implemented (why?) in hoon.hoon as a 1-running.
 <p>A split 0-running hoon should consist of, in lexical order:</p>
 <ul>
 <li><p>Its rune.</p></li>
-<li><p>A vertical gap, whose inter-column is the anchor column, and whose pre-column is aligned at the runstep lines.</p></li>
-<li><p>A running where</p>
-<ul>
-<li><p>runstep lines are aligned one stop after the anchor column;</p></li>
-<li><p>the inter-column of the vertical gaps is aligned at the anchor column; and</p></li>
-<li><p>the pre-column of the vertical gaps is aligned at the runstep lines.</p></li>
-</ul></li>
-<li><p>A vertical gap, whose inter-column is the anchor column, and whose pre-column is aligned at the runstep lines.</p></li>
+<li><p>A vertical gap, with comments at the anchor column, and aligned at the runstep lines.</p></li>
+<li><p>A running where runstep lines are aligned one stop after the anchor column. The runstep lines are separated by vertical gaps with comments at the anchor column and aligned with the runstep lines.</p></li>
+<li><p>A vertical gap, with comments at the anchor column, and aligned at the runstep lines.</p></li>
 <li><p>A TISTIS aligned at the anchor column.</p></li>
 </ul>
 <!-- TODO: check all uses of runeColumn to be sure that
      anchor column is not what is intended -->
 <h2 id="running-hoons-2">1-running hoons</h2>
-<p>1-running hoons can be joined or split.</p>
+<p>1-running hoon statements do not reanchor. 1-running hoons can be joined or split.</p>
 <h3 id="joined-1-running-hoons">Joined 1-running hoons</h3>
 <p><em>From <code>arvo/sys/hoon.hoon</code>, lines 4853-4855:</em></p>
 <pre><code>             ;~  less  soz
@@ -441,14 +436,9 @@ It's a 0-running implemented (why?) in hoon.hoon as a 1-running.
 <li><p>Its head.</p></li>
 <li><p>A one-stop horizontal gap.</p></li>
 <li><p>The first runstep line.</p></li>
-<li><p>A vertical gap, whose inter-column is the anchor column, and whose pre-column is aligned one stop after the anchor column.</p></li>
-<li><p>The remainder of the running, where</p>
-<ul>
-<li><p>runstep lines are aligned one stop after the anchor column;</p></li>
-<li><p>the inter-column of the vertical gaps is aligned at the anchor column; and</p></li>
-<li><p>the pre-column of the vertical gaps is aligned one stop after the anchor column.</p></li>
-</ul></li>
-<li><p>A vertical gap, whose inter-column is the anchor column, and whose pre-column is aligned one stop after the the anchor column.</p></li>
+<li><p>A vertical gap with comments at the anchor column, and aligned one stop after the anchor column.</p></li>
+<li><p>The remainder of the running, where runstep lines are aligned one stop after the anchor column. The runsteps lines should be separated by vertical gaps with comments at the anchor column and aligned one stop after the anchor column.</p></li>
+<li><p>A vertical gap with comments at the anchor column and aligned one stop after the anchor column.</p></li>
 <li><p>A TISTIS aligned at the anchor column.</p></li>
 </ul>
 <h3 id="split-1-running-hoons">Split 1-running hoons</h3>
@@ -552,7 +542,7 @@ It's a 0-running implemented (why?) in hoon.hoon as a 1-running.
 <p>Criss-cross lines are so called because if you draw a line from each terminator on the criss-cross line to the rune that it matches syntactically, you end up with a set of lines, each of which crosses all the others.</p>
 <p>Only one kind of terminator should appear in a criss-cross line. Every character in a criss-cross line should be part of a terminator, or part of a gap.</p>
 <h2 id="jogging-hoons-1">1-jogging hoons</h2>
-<p>Every 1-jogging hoon is either kingside or queenside. 1-jogging hoons are reanchor at KETLUS (<code>^+</code>).</p>
+<p>Every 1-jogging hoon is either kingside or queenside. 1-jogging hoons reanchor at KETLUS (<code>^+</code>).</p>
 <h3 id="kingside-1-jogging-hoons">Kingside 1-jogging hoons</h3>
 <p><em>From <code>arvo/sys/hoon.hoon</code>, lines 6330-6334:</em></p>
 <pre><code>  ?-  pex
@@ -1145,5 +1135,10 @@ Exception ::= BlankLine</code></pre>
 <p>The reanchoring in this document is based, first on the examples, and second, on the <code>arvo/</code> corpus. The approach is conservative -- reanchoring is only in this standard if it is exemplified in the <code>arvo/</code> corpus or the examples. Reanchorings which cause inconsistences with the <code>arvo/</code> corpus are accepted as part of this standard, if it seems reasonable to consider the exceptions to be aberrations. But no inconsistencies with the examples are accepted as part of this standard.</p>
 <p>In future, it may be best to revise this document to treat more reanchorings as standard than currently.</p>
 <p>The <code>arvo/</code> corpus suggests that BARCEN reanchoring at TISGAR should be considered standard, but accepting BARCEN-to-TISGAR reanchoring as standard would make the tic-tac-toe example non-standard.</p>
+<p>On the other hand, lines 1323-1326 from <code>sys/vane/ames.hoon</code> suggest that TISGAR resists being an anchoring target:</p>
+<pre><code>=&gt;  ^+  .   %=  .
+      q.r.neb  (~(put by q.r.neb) q.fud t.fud)
+      q.neb    +(q.neb)
+    ==</code></pre>
 </body>
 </html>
