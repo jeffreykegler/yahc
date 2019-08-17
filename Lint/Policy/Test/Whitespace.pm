@@ -195,9 +195,9 @@ sub anchorDetails {
         my $brickLiteral = $instance->literalLine($runeLine);
         my $brickLexeme = substr $brickLiteral, $brickColumn;
         $brickLexeme =~ s/[\s].*\z//xms;
-        return [qq{anchor column is }
-              . describeLC( $runeLine, $anchorColumn )
-              . qq{ "$brickLexeme" in line: "$runeLine"}
+        return [sprintf 'anchor column is "%s" @%s',
+               $brickLexeme,
+              describeLC( $runeLine, $anchorColumn )
               ];
     }
     push @desc,
@@ -5517,6 +5517,15 @@ sub checkBackdented {
     # my ( $anchorLine, $anchorColumn ) = $instance->nodeLC($anchorNode);
     my ( $anchorLine, $anchorColumn ) = ( $parentLine, $parentColumn );
     my $anchorData;
+    if ($runeName eq 'cenlus') {
+        ( $anchorColumn, $anchorData ) = $policy->reanchorInc(
+            $node,
+            {
+                'tallCenhep' => 1, # fixes 8, breaks 0
+                'tallTislus' => 1, # fixes 11, breaks 2
+            }
+        );
+    }
     if ($runeName eq 'kethep') {
         ( $anchorColumn, $anchorData ) = $policy->reanchorInc(
             $node,
@@ -5563,6 +5572,36 @@ sub checkBackdented {
                 tallBardot => 1, # fixes 8, breaks 0
                 tallBartar => 1, # fixes 4, breaks 0
                 tallCenhep => 1, # fixes 2, breaks 0
+            }
+        );
+    }
+    if ($runeName eq 'ketwut') {
+        ( $anchorColumn, $anchorData ) = $policy->reanchorInc(
+            $node,
+            {
+               LuslusCell => 1,
+               tallBuccab => 1,
+            }
+        );
+    }
+    if ($runeName eq 'tisgal') {
+        ( $anchorColumn, $anchorData ) = $policy->reanchorInc(
+            $node,
+            {
+                tallBartis => 1, # fixes 20, breaks 0
+                tallTisgal => 1, # fixes 14, breaks 0
+                tallCenhep => 1, # fixes 7, breaks 0
+                tallKetlus => 1, # fixes 4, breaks 0
+                tallTisgar => 1, # fixes 2, breaks 0
+                tallCenlus => 1, # fixes 1, breaks 1
+            }
+        );
+    }
+    if ($runeName eq 'tisgar') {
+        ( $anchorColumn, $anchorData ) = $policy->reanchorInc(
+            $node,
+            {
+                tallTisgar => 1,
             }
         );
     }
@@ -5809,14 +5848,16 @@ sub checkBackdented {
                     preColumn  => $elementColumn,
                     runeName => $runeName,
                     subpolicy => [ $runeName ],
+                    topicLines => [ $anchorLine, $elementLine ],
                     details => [
                         [
                             $runeName,
                             @{$anchorDetails},
-                            'inter-comment indent should be '
-                              . ( $anchorColumn + 1 ),
-                     'pre-comment indent should be ' . ( $elementColumn + 1 ),
-                        ]
+                            (sprintf 'inter-comment indent should be %d; see line %d',
+                              ( $anchorColumn + 1 ), $anchorLine),
+                            (sprintf 'pre-comment indent should be %d; see line %d',
+                              ( $elementColumn + 1 ), $elementLine)
+                       ]
                     ],
                 }
             )
@@ -5832,12 +5873,11 @@ sub checkBackdented {
               {
                 desc           => $msg,
                 subpolicy => [ $runeName, 'indent' ],
-                parentLine     => $parentLine,
-                parentColumn   => $parentColumn,
                 line           => $elementLine,
                 column         => $elementColumn,
                 reportLine           => $elementLine,
                 reportColumn         => $elementColumn,
+                topicLines => [ $anchorLine ],
                 details        => [ [ $runeName, @{$anchorDetails}, ] ],
               };
         }
@@ -5970,6 +6010,7 @@ sub checkKetdot {
 
 sub checkLuslus {
     my ( $policy, $node, $cellLHS ) = @_;
+    my $nodeIX       = $node->{IX};
     my $instance = $policy->{lint};
     my $runeName = $policy->runeName($node);
     my ( $parentLine, $parentColumn ) = $instance->nodeLC($node);
@@ -6000,6 +6041,8 @@ sub checkLuslus {
     my $anchorDetails;
     $anchorDetails = $policy->anchorDetails( $node, $anchorData )
       if $anchorData;
+
+    $policy->{perNode}->{$nodeIX}->{reanchorOffset} = 2;
 
     my @mistakes = ();
 
