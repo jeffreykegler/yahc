@@ -5526,6 +5526,28 @@ sub checkBackdented {
             }
         );
     }
+    if ($runeName eq 'colcab') {
+        ( $anchorColumn, $anchorData ) = $policy->reanchorInc(
+            $node,
+            {
+                'tallColcab' => 1, # fixes 13, breaks 0
+                'tallCenhep' => 1, # fixes 12, breaks 0
+                'tallCenlus' => 1, # fixes 6, breaks 0
+                # 'tallColhep' => 1, # fixes 1, breaks 2
+            }
+        );
+    }
+    if ($runeName eq 'colhep') {
+        ( $anchorColumn, $anchorData ) = $policy->reanchorInc(
+            $node,
+            {
+                # 'tallColhep' => 1, fixes 2, breaks 4
+                'tallCenlus' => 1, # fixes 3, breaks 0
+                'tallColcab' => 1, # fixes 3, breaks 0
+                # 'tallColsig' => 1, # fixes 0, breaks 5
+            }
+        );
+    }
     if ($runeName eq 'kethep') {
         ( $anchorColumn, $anchorData ) = $policy->reanchorInc(
             $node,
@@ -5575,6 +5597,14 @@ sub checkBackdented {
             }
         );
     }
+    # if ($runeName eq 'kettis') {
+        # ( $anchorColumn, $anchorData ) = $policy->reanchorInc(
+            # $node,
+            # {
+                # tallTislus => 1, # breaks 109, fixes 24
+            # }
+        # );
+    # }
     if ($runeName eq 'ketwut') {
         ( $anchorColumn, $anchorData ) = $policy->reanchorInc(
             $node,
@@ -5588,7 +5618,15 @@ sub checkBackdented {
         ( $anchorColumn, $anchorData ) = $policy->reanchorInc(
             $node,
             {
-               LuslusCell => 1,
+               LuslusCell => 1, # fixes 44, breaks 4
+            }
+        );
+    }
+    if ($runeName eq 'siglus') {
+        ( $anchorColumn, $anchorData ) = $policy->reanchorInc(
+            $node,
+            {
+               tallCenlus => 1, # fixes 26, breaks 0
             }
         );
     }
