@@ -1749,7 +1749,6 @@ hoons/arvo/sys/zuse.hoon 2596:11 Test::Whitespace kethep:indent backdented eleme
 
 # Backdented hoon aberrations
 hoons/arvo/mar/txt.hoon 163:1 Test::Whitespace colhep:empty-line backdented element #2, @163:1; empty line in comment
-hoons/arvo/sys/zuse.hoon 3921:3 Test::Whitespace ketwut:pseudojoin-mismatch Pseudo-joined backdented element 1; element/comment mismatch; element is @3921:3
 hoons/arvo/sys/hoon.hoon 909:13 Test::Whitespace tisfas:hgap joined backdent element #2 of @909:3 is at @909:13; should be one of @909:11 (tight); @909:16 (chain)
 hoons/arvo/app/test.hoon 149:29 Test::Whitespace colhep:hgap joined backdent element #2 of @149:5 is at @149:29; should be one of @149:20 (tight); @149:35 (running)
 hoons/arvo/app/test.hoon 150:29 Test::Whitespace colhep:hgap joined backdent element #2 of @150:5 is at @150:29; should be one of @150:26 (tight); @150:35 (running)
@@ -1907,6 +1906,17 @@ hoons/arvo/sys/zuse.hoon 1971:13 Test::Whitespace colhep:indent backdented eleme
 hoons/arvo/sys/zuse.hoon 1995:13 Test::Whitespace colhep:indent backdented element #2 @1995:13; overindented by 4
 hoons/arvo/tests/zuse/crypto/keccak.hoon 57:7 Test::Whitespace colhep:indent backdented element #2 @57:7; overindented by 2
 hoons/arvo/tests/zuse/crypto/keccak.hoon 268:5 Test::Whitespace colhep:indent backdented element #2 @268:5; overindented by 2
+
+# WUTCOL aberrations
+hoons/arvo/app/hall.hoon 2450:17 Test::Whitespace wutcol:indent backdented element #2 @2450:17; underindented by 2
+hoons/arvo/app/hall.hoon 2452:17 Test::Whitespace wutcol:indent backdented element #2 @2452:17; underindented by 2
+hoons/arvo/app/talk.hoon 949:15 Test::Whitespace wutcol:indent backdented element #2 @949:15; underindented by 2
+hoons/arvo/sys/hoon.hoon 487:6 Test::Whitespace wutcol:indent backdented element #2 @487:6; overindented by 1
+hoons/arvo/sys/hoon.hoon 2062:11 Test::Whitespace wutcol:indent backdented element #3 @2062:11; underindented by 1
+hoons/arvo/sys/hoon.hoon 9383:23 Test::Whitespace wutcol:indent backdented element #2 @9383:23; overindented by 1
+hoons/arvo/sys/hoon.hoon 9879:19 Test::Whitespace wutcol:indent backdented element #3 @9879:19; overindented by 1
+hoons/arvo/sys/hoon.hoon 12331:26 Test::Whitespace wutcol:indent backdented element #2 @12331:26; overindented by 1
+hoons/arvo/sys/zuse.hoon 1407:8 Test::Whitespace wutcol:indent backdented element #2 @1407:8; overindented by 1
 
 # Matching reanchoring to indentation in some cases often causes mismatches in other cases.
 # I adopt a statistics term for these: "outliers".  I also handle them the way statisticians do --
