@@ -5693,7 +5693,8 @@ if ( $runeName eq q{barhep} ) {
         $node,
         {
             tallKettis => 1, # fixes 1, breaks 0
-            # TODO: TO HERE
+            tallTisdot => 1, # fixes 1, breaks 0
+            # FINISHED
         }
     );
 }
@@ -5722,7 +5723,10 @@ if ( $runeName eq q{bartis} ) {
         $node,
         {
             tallColhep => 1, # fixes 2, breaks 0
-            # TODO: TO HERE
+            # tallCenlus => 1, # fixes 2, breaks 6
+            # tallCenhep => 1, # fixes 1, breaks 3
+            # LuslusCell => 1, # fixes 1, breaks 24
+            # FINISHED
         }
     );
 }
@@ -5750,7 +5754,10 @@ if ( $runeName eq q{cendot} ) {
         $node,
         {
             tallBartis => 1, # fixes 7, breaks 0
+            # tallTisgal => 1, # fixes 1, breaks 2
+            # tallTishep => 1, # fixes 0, breaks 1
             # TODO: TO HERE
+            tallCenhep => 1,
         }
     );
 }
@@ -5806,7 +5813,7 @@ if ( $runeName eq q{sigcab} ) {
 }
 
 # siglus
-if ( 0 and $runeName eq q{siglus} ) {
+if ( $runeName eq q{siglus} ) {
 
     #       1 =+
     #       1 |=
@@ -5816,7 +5823,10 @@ if ( 0 and $runeName eq q{siglus} ) {
         $node,
         {
             # tallTislus => 1, # fixes 0, breaks 0
+            # tallBartis => 1, # fixes 0, breaks 0
+            # tallBardot => 1, # fixes 0, breaks 0
             # TODO: TO HERE
+            LuslusCell => 1,
         }
     );
 }
@@ -5830,7 +5840,8 @@ if ( $runeName eq q{tisbar} ) {
         $node,
         {
             tallBartis => 1, # fixes 1, breaks 0
-            # TODO: TO HERE
+            tallBuccab => 1, # fixes 1, breaks 0
+            # FINISHED
         }
     );
 }
@@ -5862,18 +5873,19 @@ if ( $runeName eq q{tisdot} ) {
 }
 
 # tisgar
-if ( 0 and $runeName eq q{tisgar} ) {
+# if ( $runeName eq q{tisgar} ) {
 
     #       1 =>
     #       1 %+
-    ( $anchorColumn, $anchorData ) = $policy->reanchorInc(
-        $node,
-        {
+    # ( $anchorColumn, $anchorData ) = $policy->reanchorInc(
+        # $node,
+        # {
             # tallTisgar => 1, # fixes 0, breaks 0
-            # TODO: TO HERE
-        }
-    );
-}
+            # tallCenlus => 1, # fixes 0, breaks 0
+            # FINISHED
+        # }
+    # );
+# }
 
 # tislus
 # if ( $runeName eq q{tislus} ) {
@@ -5898,7 +5910,9 @@ if ( $runeName eq q{wutdot} ) {
         $node,
         {
             tallBarhep => 1, # fixes 5, breaks 0
-            # TODO: TO HERE
+            # tallTisdot => 1, # fixes 1, breaks 3
+            # tallWutdot => 1, # fixes 0, breaks 0
+            # FINISHED
         }
     );
 }
